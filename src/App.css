@@ -24,3 +24,17 @@ h6 {
   padding: 0;
   margin: 0;
 }
+
+/* .image-container {
+  position: relative;
+} */
+
+.pointer {
+  position: relative;
+  border: 1px solid black;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  /* top: 342px; */
+  /* left: 375px; */
+}
