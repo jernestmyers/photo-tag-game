@@ -1,131 +1,45 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-// import photoCollage from "./assets/national-parks-collage.jpg";
-// import photoCollage2 from "./assets/national-parks-collage-2.jpg";
 import Gameboard from "./components/Gameboard";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+
+// Firebase configuration object
+const firebaseConfig = {
+  apiKey: "AIzaSyDb5ZCdEaEqHORANq6NbOR-6Q-emlnohqA",
+  authDomain: "photo-tag-game.firebaseapp.com",
+  projectId: "photo-tag-game",
+  storageBucket: "photo-tag-game.appspot.com",
+  messagingSenderId: "1040129590056",
+  appId: "1:1040129590056:web:97e1a01604a003328cc61d",
+};
+
+// Initialize Firebase
+// const app = initializeApp(firebaseConfig);
 
 function App() {
-  // useEffect(() => {
-  //   window.addEventListener(`click`, clickLocation);
-  // }, []);
+  useEffect(() => {
+    initializeApp(firebaseConfig);
+    const db = getFirestore();
+    getImgLocations(db);
+  }, []);
 
-  // const clickLocation = (e) => {
-  //   const pointer = document.querySelector(`.pointer`);
-  //   const imgCollage = document.querySelector(`#img-collage`);
-  //   // console.log(imgCollage);
-  //   // console.log(e.target.className);
-  //   // console.log({ x: e.pageX, y: e.pageY });
-  //   if (
-  //     e.pageX >= imgCollage.offsetLeft &&
-  //     e.pageX <= imgCollage.offsetLeft + imgCollage.width &&
-  //     e.pageY >= imgCollage.offsetTop &&
-  //     e.pageY <= imgCollage.offsetTop + imgCollage.height &&
-  //     e.target.className !== `choose-park-btn`
-  //   ) {
-  //     // display properties for the pointer
-  //     const pointerDiameterString = window
-  //       .getComputedStyle(pointer)
-  //       .getPropertyValue(`width`);
-  //     const pointerDiameterInteger = +pointerDiameterString.substring(
-  //       0,
-  //       pointerDiameterString.length - 2
-  //     );
-  //     pointer.style.display = `block`;
-  //     pointer.style.left = `${e.pageX - pointerDiameterInteger / 2}px`;
-  //     pointer.style.top = `${e.pageY - pointerDiameterInteger / 2}px`;
+  const [imgLocations, setImgLocations] = useState([]);
 
-  //     //display properties for the selectors
-  //     const selectorContainer = document.querySelector(
-  //       `#park-selector-container`
-  //     );
-  //     // const selectorBtn = document.querySelector(`.choose-park-btn`);
-  //     const selectorContainerWidthString = window
-  //       .getComputedStyle(selectorContainer)
-  //       .getPropertyValue(`width`);
-  //     const selectorContainerWidthInteger =
-  //       +selectorContainerWidthString.substring(
-  //         0,
-  //         selectorContainerWidthString.length - 2
-  //       );
-  //     // const selectAllBtns = document.querySelectorAll(`.choose-park-btn`);
-  //     const parkSelector = document.querySelector(`#park-selector`);
-  //     if (
-  //       e.pageX +
-  //         10 +
-  //         selectorContainerWidthInteger +
-  //         pointerDiameterInteger / 2 <=
-  //       imgCollage.offsetLeft + imgCollage.width
-  //     ) {
-  //       selectorContainer.style.left = `${pointerDiameterInteger}px`;
-  //       selectorContainer.style.right = ``;
-  //       // selectAllBtns.forEach((btn) => {
-  //       //   btn.style.textAlign = `left`;
-  //       // });
-  //       parkSelector.style.alignItems = `flex-start`;
-  //     } else {
-  //       selectorContainer.style.left = ``;
-  //       selectorContainer.style.right = `${
-  //         selectorContainerWidthInteger + pointerDiameterInteger / 5
-  //       }px`;
-  //       // selectAllBtns.forEach((btn) => {
-  //       //   btn.style.textAlign = `right`;
-  //       // });
-  //       parkSelector.style.alignItems = `flex-end`;
-  //     }
-  //   } else {
-  //     pointer.style.display = `none`;
-  //     pointer.style.left = ``;
-  //     pointer.style.top = ``;
-  //   }
-  //   drawGuadBox(e, imgCollage);
-  // };
-
-  // function drawGuadBox(event, img) {
-  //   const guadBox = document.querySelector(`#guad-answer`);
-  //   // console.log(event.pageX);
-  //   guadBox.style.width = `${img.width * (70 / img.naturalWidth)}px`;
-  //   guadBox.style.height = `${img.height * (65 / img.naturalHeight)}px`;
-  //   guadBox.style.left = `${
-  //     img.offsetLeft + img.width * ((130 - 77) / img.naturalWidth)
-  //   }px`;
-  //   guadBox.style.top = `${
-  //     img.height * ((345 - 16) / img.naturalHeight) + img.offsetTop
-  //   }px`;
-  // }
+  async function getImgLocations(database) {
+    const dataHelper = [];
+    const querySnapshot = await getDocs(collection(database, "img-location"));
+    querySnapshot.forEach((doc) => {
+      // console.log(doc.id);
+      dataHelper.push([doc.id, doc.data()]);
+    });
+    setImgLocations(dataHelper);
+  }
 
   return (
     <div>
       <h1>find and seek - national parks edition</h1>
-      <Gameboard></Gameboard>
-      {/* <div className="image-container">
-        <div id="guad-answer"></div>
-        <div className="pointer">
-          <div id="park-selector-container">
-            <ul id="park-selector">
-              <li>
-                <button className="choose-park-btn" value="bigBend">
-                  Big Bend
-                </button>
-              </li>
-              <li>
-                <button className="choose-park-btn" value="smokies">
-                  Smoky Mountains
-                </button>
-              </li>
-              <li>
-                <button className="choose-park-btn" value="guadalupe">
-                  Guadalupe Mountains
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <img
-          id="img-collage"
-          src={photoCollage2}
-          alt="A collage of imagery representing the different National Parks of the United States."
-        ></img>
-      </div> */}
+      <Gameboard imgLocations={imgLocations}></Gameboard>
     </div>
   );
 }

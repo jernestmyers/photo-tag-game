@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 
-function Gameboard() {
+function Gameboard(props) {
+  console.log(props.imgLocations);
+
   useEffect(() => {
     window.addEventListener(`click`, clickLocation);
   }, []);
@@ -11,7 +13,7 @@ function Gameboard() {
     const imgCollage = document.querySelector(`#img-collage`);
     // console.log(imgCollage);
     // console.log(e.target.className);
-    // console.log({ x: e.pageX, y: e.pageY });
+    console.log({ x: e.pageX, y: e.pageY });
     if (
       e.pageX >= imgCollage.offsetLeft &&
       e.pageX <= imgCollage.offsetLeft + imgCollage.width &&
@@ -31,11 +33,10 @@ function Gameboard() {
       pointer.style.left = `${e.pageX - pointerDiameterInteger / 2}px`;
       pointer.style.top = `${e.pageY - pointerDiameterInteger / 2}px`;
 
-      //display properties for the selectors
+      // display properties for the selectors
       const selectorContainer = document.querySelector(
         `#park-selector-container`
       );
-      // const selectorBtn = document.querySelector(`.choose-park-btn`);
       const selectorContainerWidthString = window
         .getComputedStyle(selectorContainer)
         .getPropertyValue(`width`);
@@ -44,7 +45,6 @@ function Gameboard() {
           0,
           selectorContainerWidthString.length - 2
         );
-      // const selectAllBtns = document.querySelectorAll(`.choose-park-btn`);
       const parkSelector = document.querySelector(`#park-selector`);
       if (
         e.pageX +
@@ -55,18 +55,14 @@ function Gameboard() {
       ) {
         selectorContainer.style.left = `${pointerDiameterInteger}px`;
         selectorContainer.style.right = ``;
-        // selectAllBtns.forEach((btn) => {
-        //   btn.style.textAlign = `left`;
-        // });
+
         parkSelector.style.alignItems = `flex-start`;
       } else {
         selectorContainer.style.left = ``;
         selectorContainer.style.right = `${
           selectorContainerWidthInteger + pointerDiameterInteger / 5
         }px`;
-        // selectAllBtns.forEach((btn) => {
-        //   btn.style.textAlign = `right`;
-        // });
+
         parkSelector.style.alignItems = `flex-end`;
       }
     } else {
