@@ -130,15 +130,37 @@ table {
 /* -----! END OF CSS RESET ! ----- */
 
 html {
-  --pointer-diameter: 50px;
+  --pointer-diameter: 75px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
 }
 
 .pointer {
   display: none;
   position: absolute;
   z-index: 2;
-  border: 1px solid black;
+  border: 5px solid #fc7a57;
   height: var(--pointer-diameter);
   width: var(--pointer-diameter);
   border-radius: 50%;
 }
+
+#park-selector-container {
+  position: relative;
+  /* padding: 0 10px; */
+  left: var(--pointer-diameter);
+}
+
+.choose-park-btn {
+  width: 150px;
+  margin: 0 10px;
+  text-align: left;
+}
+
+/* #img-collage {
+  width: 400px;
+  height: auto;
+} */
