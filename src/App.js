@@ -4,9 +4,17 @@ import photoCollage2 from "./assets/national-parks-collage-2.jpg";
 
 function App() {
   const clickLocation = (e) => {
-    console.log({ x: e.clientX, y: e.clientY });
-    document.querySelector(`.pointer`).style.left = `${e.clientX - 20}px`;
-    document.querySelector(`.pointer`).style.top = `${e.clientY - 30}px`;
+    const pointer = document.querySelector(`.pointer`);
+    const pointerDiameterString = window
+      .getComputedStyle(pointer)
+      .getPropertyValue(`width`);
+    const pointerDiameterInteger = pointerDiameterString.substring(
+      0,
+      pointerDiameterString.length - 2
+    );
+    pointer.style.display = `block`;
+    pointer.style.left = `${e.clientX - pointerDiameterInteger / 2}px`;
+    pointer.style.top = `${e.clientY - pointerDiameterInteger / 2}px`;
   };
 
   return (
