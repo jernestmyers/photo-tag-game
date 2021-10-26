@@ -171,6 +171,15 @@ html {
 }
 
 /* #img-collage {
-  width: 400px;
+  width: 600px;
   height: auto;
 } */
+
+#guad-answer {
+  position: absolute;
+  border: 1px solid #eefc57;
+  /* top: 340px;
+  left: 130px;
+  width: 70px;
+  height: 65px; */
+}

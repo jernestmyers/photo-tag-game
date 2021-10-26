@@ -11,8 +11,9 @@ function App() {
   const clickLocation = (e) => {
     const pointer = document.querySelector(`.pointer`);
     const imgCollage = document.querySelector(`#img-collage`);
-    // console.log(imgCollage);
-    console.log(e.target.className);
+    console.log(imgCollage);
+    // console.log(e.target.className);
+    console.log({ x: e.pageX, y: e.pageY });
     if (
       e.pageX >= imgCollage.offsetLeft &&
       e.pageX <= imgCollage.offsetLeft + imgCollage.width &&
@@ -75,7 +76,21 @@ function App() {
       pointer.style.left = ``;
       pointer.style.top = ``;
     }
+    drawGuadBox(e, imgCollage);
   };
+
+  function drawGuadBox(event, img) {
+    const guadBox = document.querySelector(`#guad-answer`);
+    // console.log(event.pageX);
+    guadBox.style.width = `${img.width * (70 / img.naturalWidth)}px`;
+    guadBox.style.height = `${img.height * (65 / img.naturalHeight)}px`;
+    guadBox.style.left = `${
+      img.offsetLeft + img.width * ((130 - 77) / img.naturalWidth)
+    }px`;
+    guadBox.style.top = `${
+      img.height * ((345 - 16) / img.naturalHeight) + img.offsetTop
+    }px`;
+  }
 
   return (
     <div>
@@ -85,6 +100,7 @@ function App() {
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img> */}
       <div className="image-container">
+        <div id="guad-answer"></div>
         <div className="pointer">
           <div id="park-selector-container">
             <ul id="park-selector">
