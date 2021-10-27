@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 import TargetSelector from "./TargetSelector";
+import {
+  getFirestore,
+  //   collection,
+  //   getDocs,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 
 function Gameboard(props) {
   //   console.log(props.imgLocations);
@@ -14,17 +21,41 @@ function Gameboard(props) {
     { name: `Rocky Mountain`, value: `rockies` },
     { name: `Saguaro`, value: `saguaro` },
   ]);
+  const [data, setData] = useState();
 
   useEffect(() => {
     window.addEventListener(`click`, handleClick);
+    setData(props.imgLocations);
   }, []);
+
+  useEffect(() => {
+    setAbsoluteTargetLocations();
+  }, [data]);
 
   useEffect(() => {
     handlePointerDisplay();
   }, [clickLocation, clickedClassName]);
 
+  const setAbsoluteTargetLocations = async () => {
+    const db = getFirestore();
+    const imgCollage = document.querySelector(`#img-collage`);
+    await props.imgLocations.forEach((target) => {
+      setDoc(doc(db, "absolute-img-locations", target[0]), {
+        minX: target[1].offsetLeft * imgCollage.width + imgCollage.offsetLeft,
+        minY: target[1].offsetTop * imgCollage.height + imgCollage.offsetTop,
+        maxX:
+          target[1].offsetLeft * imgCollage.width +
+          imgCollage.offsetLeft +
+          target[1].width * imgCollage.width,
+        maxY:
+          target[1].offsetTop * imgCollage.height +
+          imgCollage.offsetTop +
+          target[1].height * imgCollage.height,
+      });
+    });
+  };
+
   const handleClick = (e) => {
-    // console.log({ x: e.pageX, y: e.pageY });
     if (e.target.className !== `choose-park-btn`) {
       setClickLocation({ x: e.pageX, y: e.pageY });
     }

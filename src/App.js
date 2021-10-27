@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 function App() {
   useEffect(() => {
@@ -29,7 +29,9 @@ function App() {
 
   async function getImgLocations(database) {
     const dataHelper = [];
-    const querySnapshot = await getDocs(collection(database, "img-location"));
+    const querySnapshot = await getDocs(
+      collection(database, "relative-img-locations")
+    );
     querySnapshot.forEach((doc) => {
       // console.log(doc.id);
       dataHelper.push([doc.id, doc.data()]);
