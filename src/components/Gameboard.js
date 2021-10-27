@@ -7,12 +7,12 @@ function Gameboard(props) {
   const [clickLocation, setClickLocation] = useState({});
   const [clickedClassName, setClickedClassName] = useState();
   const [selectorTargets, setSelectorTargets] = useState([
-    `Big Bend`,
-    `Glacier`,
-    `Guadalupe Mountains`,
-    `Joshua Tree`,
-    `Rocky Mountain`,
-    `Saguaro`,
+    { name: `Big Bend`, value: `bigBend` },
+    { name: `Glacier`, value: `glacier` },
+    { name: `Guadalupe Mountains`, value: `guadalupe` },
+    { name: `Joshua Tree`, value: `joshuaTree` },
+    { name: `Rocky Mountain`, value: `rockies` },
+    { name: `Saguaro`, value: `saguaro` },
   ]);
 
   useEffect(() => {
@@ -159,7 +159,8 @@ function Gameboard(props) {
   //   }
 
   const validateSelection = (e) => {
-    console.log(clickLocation);
+    // console.log(clickLocation);
+    console.log(e.target.value);
     // console.log([e.pageX, e.pageY]);
   };
 

@@ -7,13 +7,13 @@ function TargetSelector(props) {
       <ul id="park-selector">
         {props.selectorTargets.map((target) => {
           return (
-            <li>
+            <li key={target.value}>
               <button
                 onClick={props.validateSelection}
                 className="choose-park-btn"
-                value={target}
+                value={target.value}
               >
-                {target}
+                {target.name}
               </button>
             </li>
           );
