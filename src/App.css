@@ -171,15 +171,16 @@ html {
 }
 
 /* #img-collage {
-  width: 600px;
+  width: 400px;
   height: auto;
 } */
 
+#big-bend-answer,
+#glacier-answer,
+#joshua-answer,
+#rockies-answer,
+#saguaro-answer,
 #guad-answer {
   position: absolute;
   border: 1px solid #eefc57;
-  /* top: 340px;
-  left: 130px;
-  width: 70px;
-  height: 65px; */
 }
