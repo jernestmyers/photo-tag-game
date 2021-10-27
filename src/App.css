@@ -129,9 +129,17 @@ table {
 }
 /* -----! END OF CSS RESET ! ----- */
 
-html {
+html,
+body {
+  width: 100%;
+  height: 100%;
   --pointer-diameter: 40px;
   --btn-width: 150px;
+  --collage-width: 600px;
+}
+
+body {
+  font: 18px sans-serif, Helvetica, Arial;
 }
 
 *,
@@ -170,10 +178,10 @@ html {
   /* text-align: left; */
 }
 
-/* #img-collage {
-  width: 400px;
+#img-collage {
+  width: var(--collage-width);
   height: auto;
-} */
+}
 
 #big-bend-answer,
 #glacier-answer,
@@ -183,4 +191,61 @@ html {
 #guad-answer {
   position: absolute;
   border: 1px solid #eefc57;
+}
+
+/* BEGIN HEADER STYLES */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.25rem 0;
+}
+
+#title-container {
+  height: 100%;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+#title-left,
+#title-right {
+  display: flex;
+  height: 75px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #5e5b52;
+}
+
+.title-small {
+  font-size: 1rem;
+  /* font-weight: 500; */
+  color: #d17da1;
+}
+
+#title-left {
+  border-right: 0.125rem solid #5e5b52;
+}
+
+#title-right {
+  color: #fc7a57;
+}
+
+span {
+  margin: 0.06125rem 0.5rem;
+}
+
+#logo-container {
+  display: flex;
+  width: var(--collage-width);
+  justify-content: space-evenly;
+  justify-content: space-around;
+}
+
+.emblem-key {
+  width: auto;
+  height: 75px;
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Gameboard from "./components/Gameboard";
+import Header from "./components/Header";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 
@@ -38,7 +39,7 @@ function App() {
 
   return (
     <div>
-      <h1>find and seek - national parks edition</h1>
+      <Header></Header>
       <Gameboard imgLocations={imgLocations}></Gameboard>
     </div>
   );
