@@ -11,15 +11,22 @@ function Header() {
     <header>
       <div id="title-container">
         <div id="title-left">
-          <span>FIND</span>
-          <span className="title-small">AND</span>
-          <span>SEEK</span>
+          <p className="title-text">FIND</p>
+          <p className="title-text" id="title-small">
+            AND
+          </p>
+          <p className="title-text">SEEK</p>
         </div>
         <div id="title-right">
-          <span>NATIONAL PARKS</span>
-          <span id="title-edition">EDITION</span>
+          <p className="title-text">NATIONAL PARKS</p>
+          <p className="title-text" id="title-edition">
+            EDITION
+          </p>
         </div>
       </div>
+      {/* <div>
+        <h2>Find these national park emblems on the poster below.</h2>
+      </div> */}
       <div id="logo-container">
         <img
           className="emblem-key"

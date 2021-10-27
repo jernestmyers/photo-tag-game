@@ -2,26 +2,37 @@ import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 
 function Gameboard(props) {
-  console.log(props.imgLocations);
+  //   console.log(props.imgLocations);
+  const [clickLocation, setClickLocation] = useState({});
+  const [clickedClassName, setClickedClassName] = useState();
 
   useEffect(() => {
-    window.addEventListener(`click`, clickLocation);
+    window.addEventListener(`click`, handleClick);
   }, []);
 
-  const clickLocation = (e) => {
+  useEffect(() => {
+    handlePointerDisplay();
+  }, [clickLocation, clickedClassName]);
+
+  const handleClick = (e) => {
+    // console.log({ x: e.pageX, y: e.pageY });
+    if (e.target.className !== `choose-park-btn`) {
+      setClickLocation({ x: e.pageX, y: e.pageY });
+    }
+    setClickedClassName(e.target.className);
+  };
+
+  const handlePointerDisplay = (e) => {
     const pointer = document.querySelector(`.pointer`);
     const imgCollage = document.querySelector(`#img-collage`);
-    // console.log(imgCollage);
-    // console.log(e.target.className);
-    console.log({ x: e.pageX, y: e.pageY });
     if (
-      e.pageX >= imgCollage.offsetLeft &&
-      e.pageX <= imgCollage.offsetLeft + imgCollage.width &&
-      e.pageY >= imgCollage.offsetTop &&
-      e.pageY <= imgCollage.offsetTop + imgCollage.height &&
-      e.target.className !== `choose-park-btn`
+      clickLocation.x >= imgCollage.offsetLeft &&
+      clickLocation.x <= imgCollage.offsetLeft + imgCollage.width &&
+      clickLocation.y >= imgCollage.offsetTop &&
+      clickLocation.y <= imgCollage.offsetTop + imgCollage.height &&
+      clickedClassName !== `choose-park-btn`
     ) {
-      // display properties for the pointer
+      // BEGIN - display properties for the pointer
       const pointerDiameterString = window
         .getComputedStyle(pointer)
         .getPropertyValue(`width`);
@@ -30,10 +41,10 @@ function Gameboard(props) {
         pointerDiameterString.length - 2
       );
       pointer.style.display = `block`;
-      pointer.style.left = `${e.pageX - pointerDiameterInteger / 2}px`;
-      pointer.style.top = `${e.pageY - pointerDiameterInteger / 2}px`;
+      pointer.style.left = `${clickLocation.x - pointerDiameterInteger / 2}px`;
+      pointer.style.top = `${clickLocation.y - pointerDiameterInteger / 2}px`;
 
-      // display properties for the selectors
+      // BEGIN - display properties for the selectors
       const selectorContainer = document.querySelector(
         `#park-selector-container`
       );
@@ -46,8 +57,9 @@ function Gameboard(props) {
           selectorContainerWidthString.length - 2
         );
       const parkSelector = document.querySelector(`#park-selector`);
+      // BEGIN - if-else block to determine if selector displays left or right of pointer window
       if (
-        e.pageX +
+        clickLocation.x +
           10 +
           selectorContainerWidthInteger +
           pointerDiameterInteger / 2 <=
@@ -55,25 +67,27 @@ function Gameboard(props) {
       ) {
         selectorContainer.style.left = `${pointerDiameterInteger}px`;
         selectorContainer.style.right = ``;
-
         parkSelector.style.alignItems = `flex-start`;
       } else {
         selectorContainer.style.left = ``;
         selectorContainer.style.right = `${
           selectorContainerWidthInteger + pointerDiameterInteger / 5
         }px`;
-
         parkSelector.style.alignItems = `flex-end`;
       }
+      // END - if-else block to determine if selector displays left or right of pointer window
+      // END - display properties for the selectors
     } else {
       pointer.style.display = `none`;
       pointer.style.left = ``;
       pointer.style.top = ``;
     }
-    drawAnswerBoxes(e, imgCollage);
+    // END - display properties for the pointer
+
+    drawAnswerBoxes(imgCollage);
   };
 
-  function drawAnswerBoxes(event, img) {
+  function drawAnswerBoxes(img) {
     const bigBendBox = document.querySelector(`#big-bend-answer`);
     bigBendBox.style.width = `${img.width * (75 / img.naturalWidth)}px`;
     bigBendBox.style.height = `${img.height * (80 / img.naturalHeight)}px`;
@@ -135,6 +149,11 @@ function Gameboard(props) {
     }px`;
   }
 
+  const validateSelection = (e) => {
+    console.log(clickLocation);
+    // console.log([e.pageX, e.pageY]);
+  };
+
   return (
     <div className="image-container">
       <div id="big-bend-answer"></div>
@@ -147,32 +166,56 @@ function Gameboard(props) {
         <div id="park-selector-container">
           <ul id="park-selector">
             <li>
-              <button className="choose-park-btn" value="bigBend">
+              <button
+                onClick={validateSelection}
+                className="choose-park-btn"
+                value="bigBend"
+              >
                 Big Bend
               </button>
             </li>
             <li>
-              <button className="choose-park-btn" value="smokies">
+              <button
+                onClick={validateSelection}
+                className="choose-park-btn"
+                value="glacier"
+              >
                 Glacier
               </button>
             </li>
             <li>
-              <button className="choose-park-btn" value="guadalupe">
+              <button
+                onClick={validateSelection}
+                className="choose-park-btn"
+                value="guadalupe"
+              >
                 Guadalupe Mountains
               </button>
             </li>
             <li>
-              <button className="choose-park-btn" value="guadalupe">
+              <button
+                onClick={validateSelection}
+                className="choose-park-btn"
+                value="joshuaTree"
+              >
                 Joshua Tree
               </button>
             </li>
             <li>
-              <button className="choose-park-btn" value="guadalupe">
+              <button
+                onClick={validateSelection}
+                className="choose-park-btn"
+                value="rockies"
+              >
                 Rocky Mountain
               </button>
             </li>
             <li>
-              <button className="choose-park-btn" value="guadalupe">
+              <button
+                onClick={validateSelection}
+                className="choose-park-btn"
+                value="saguaro"
+              >
                 Saguaro
               </button>
             </li>
@@ -182,7 +225,7 @@ function Gameboard(props) {
       <img
         id="img-collage"
         src={photoCollage2}
-        // onClick={clickLocation}
+        // onClick={handleClick}
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img>
     </div>
