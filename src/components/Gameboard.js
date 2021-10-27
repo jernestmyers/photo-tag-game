@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
+import TargetSelector from "./TargetSelector";
 
 function Gameboard(props) {
   //   console.log(props.imgLocations);
   const [clickLocation, setClickLocation] = useState({});
   const [clickedClassName, setClickedClassName] = useState();
+  const [selectorTargets, setSelectorTargets] = useState([
+    `Big Bend`,
+    `Glacier`,
+    `Guadalupe Mountains`,
+    `Joshua Tree`,
+    `Rocky Mountain`,
+    `Saguaro`,
+  ]);
 
   useEffect(() => {
     window.addEventListener(`click`, handleClick);
@@ -84,70 +93,70 @@ function Gameboard(props) {
     }
     // END - display properties for the pointer
 
-    drawAnswerBoxes(imgCollage);
+    // drawAnswerBoxes(imgCollage);
   };
 
-  function drawAnswerBoxes(img) {
-    const bigBendBox = document.querySelector(`#big-bend-answer`);
-    bigBendBox.style.width = `${img.width * (75 / img.naturalWidth)}px`;
-    bigBendBox.style.height = `${img.height * (80 / img.naturalHeight)}px`;
-    bigBendBox.style.left = `${
-      img.offsetLeft + img.width * ((565 - 77) / img.naturalWidth)
-    }px`;
-    bigBendBox.style.top = `${
-      img.height * ((70 - 16) / img.naturalHeight) + img.offsetTop
-    }px`;
+  //   function drawAnswerBoxes(img) {
+  //     const bigBendBox = document.querySelector(`#big-bend-answer`);
+  //     bigBendBox.style.width = `${img.width * (75 / img.naturalWidth)}px`;
+  //     bigBendBox.style.height = `${img.height * (80 / img.naturalHeight)}px`;
+  //     bigBendBox.style.left = `${
+  //       img.offsetLeft + img.width * ((565 - 77) / img.naturalWidth)
+  //     }px`;
+  //     bigBendBox.style.top = `${
+  //       img.height * ((70 - 16) / img.naturalHeight) + img.offsetTop
+  //     }px`;
 
-    const glacierBox = document.querySelector(`#glacier-answer`);
-    glacierBox.style.width = `${img.width * (78 / img.naturalWidth)}px`;
-    glacierBox.style.height = `${img.height * (95 / img.naturalHeight)}px`;
-    glacierBox.style.left = `${
-      img.offsetLeft + img.width * ((665 - 77) / img.naturalWidth)
-    }px`;
-    glacierBox.style.top = `${
-      img.height * ((280 - 16) / img.naturalHeight) + img.offsetTop
-    }px`;
+  //     const glacierBox = document.querySelector(`#glacier-answer`);
+  //     glacierBox.style.width = `${img.width * (78 / img.naturalWidth)}px`;
+  //     glacierBox.style.height = `${img.height * (95 / img.naturalHeight)}px`;
+  //     glacierBox.style.left = `${
+  //       img.offsetLeft + img.width * ((665 - 77) / img.naturalWidth)
+  //     }px`;
+  //     glacierBox.style.top = `${
+  //       img.height * ((280 - 16) / img.naturalHeight) + img.offsetTop
+  //     }px`;
 
-    const guadBox = document.querySelector(`#guad-answer`);
-    guadBox.style.width = `${img.width * (70 / img.naturalWidth)}px`;
-    guadBox.style.height = `${img.height * (70 / img.naturalHeight)}px`;
-    guadBox.style.left = `${
-      img.offsetLeft + img.width * ((130 - 77) / img.naturalWidth)
-    }px`;
-    guadBox.style.top = `${
-      img.height * ((340 - 16) / img.naturalHeight) + img.offsetTop
-    }px`;
+  //     const guadBox = document.querySelector(`#guad-answer`);
+  //     guadBox.style.width = `${img.width * (70 / img.naturalWidth)}px`;
+  //     guadBox.style.height = `${img.height * (70 / img.naturalHeight)}px`;
+  //     guadBox.style.left = `${
+  //       img.offsetLeft + img.width * ((130 - 77) / img.naturalWidth)
+  //     }px`;
+  //     guadBox.style.top = `${
+  //       img.height * ((340 - 16) / img.naturalHeight) + img.offsetTop
+  //     }px`;
 
-    const joshuaBox = document.querySelector(`#joshua-answer`);
-    joshuaBox.style.width = `${img.width * (70 / img.naturalWidth)}px`;
-    joshuaBox.style.height = `${img.height * (70 / img.naturalHeight)}px`;
-    joshuaBox.style.left = `${
-      img.offsetLeft + img.width * ((387 - 77) / img.naturalWidth)
-    }px`;
-    joshuaBox.style.top = `${
-      img.height * ((700 - 16) / img.naturalHeight) + img.offsetTop
-    }px`;
+  //     const joshuaBox = document.querySelector(`#joshua-answer`);
+  //     joshuaBox.style.width = `${img.width * (70 / img.naturalWidth)}px`;
+  //     joshuaBox.style.height = `${img.height * (70 / img.naturalHeight)}px`;
+  //     joshuaBox.style.left = `${
+  //       img.offsetLeft + img.width * ((387 - 77) / img.naturalWidth)
+  //     }px`;
+  //     joshuaBox.style.top = `${
+  //       img.height * ((700 - 16) / img.naturalHeight) + img.offsetTop
+  //     }px`;
 
-    const rockiesBox = document.querySelector(`#rockies-answer`);
-    rockiesBox.style.width = `${img.width * (65 / img.naturalWidth)}px`;
-    rockiesBox.style.height = `${img.height * (63 / img.naturalHeight)}px`;
-    rockiesBox.style.left = `${
-      img.offsetLeft + img.width * ((590 - 77) / img.naturalWidth)
-    }px`;
-    rockiesBox.style.top = `${
-      img.height * ((880 - 16) / img.naturalHeight) + img.offsetTop
-    }px`;
+  //     const rockiesBox = document.querySelector(`#rockies-answer`);
+  //     rockiesBox.style.width = `${img.width * (65 / img.naturalWidth)}px`;
+  //     rockiesBox.style.height = `${img.height * (63 / img.naturalHeight)}px`;
+  //     rockiesBox.style.left = `${
+  //       img.offsetLeft + img.width * ((590 - 77) / img.naturalWidth)
+  //     }px`;
+  //     rockiesBox.style.top = `${
+  //       img.height * ((880 - 16) / img.naturalHeight) + img.offsetTop
+  //     }px`;
 
-    const saguaroBox = document.querySelector(`#saguaro-answer`);
-    saguaroBox.style.width = `${img.width * (84 / img.naturalWidth)}px`;
-    saguaroBox.style.height = `${img.height * (83 / img.naturalHeight)}px`;
-    saguaroBox.style.left = `${
-      img.offsetLeft + img.width * ((218 - 77) / img.naturalWidth)
-    }px`;
-    saguaroBox.style.top = `${
-      img.height * ((950 - 16) / img.naturalHeight) + img.offsetTop
-    }px`;
-  }
+  //     const saguaroBox = document.querySelector(`#saguaro-answer`);
+  //     saguaroBox.style.width = `${img.width * (84 / img.naturalWidth)}px`;
+  //     saguaroBox.style.height = `${img.height * (83 / img.naturalHeight)}px`;
+  //     saguaroBox.style.left = `${
+  //       img.offsetLeft + img.width * ((218 - 77) / img.naturalWidth)
+  //     }px`;
+  //     saguaroBox.style.top = `${
+  //       img.height * ((950 - 16) / img.naturalHeight) + img.offsetTop
+  //     }px`;
+  //   }
 
   const validateSelection = (e) => {
     console.log(clickLocation);
@@ -156,76 +165,21 @@ function Gameboard(props) {
 
   return (
     <div className="image-container">
-      <div id="big-bend-answer"></div>
-      <div id="glacier-answer"></div>
-      <div id="guad-answer"></div>
-      <div id="joshua-answer"></div>
-      <div id="rockies-answer"></div>
-      <div id="saguaro-answer"></div>
+      {/* <div id="big-bend-answer"></div> */}
+      {/* <div id="glacier-answer"></div> */}
+      {/* <div id="guad-answer"></div> */}
+      {/* <div id="joshua-answer"></div> */}
+      {/* <div id="rockies-answer"></div> */}
+      {/* <div id="saguaro-answer"></div> */}
       <div className="pointer">
-        <div id="park-selector-container">
-          <ul id="park-selector">
-            <li>
-              <button
-                onClick={validateSelection}
-                className="choose-park-btn"
-                value="bigBend"
-              >
-                Big Bend
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={validateSelection}
-                className="choose-park-btn"
-                value="glacier"
-              >
-                Glacier
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={validateSelection}
-                className="choose-park-btn"
-                value="guadalupe"
-              >
-                Guadalupe Mountains
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={validateSelection}
-                className="choose-park-btn"
-                value="joshuaTree"
-              >
-                Joshua Tree
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={validateSelection}
-                className="choose-park-btn"
-                value="rockies"
-              >
-                Rocky Mountain
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={validateSelection}
-                className="choose-park-btn"
-                value="saguaro"
-              >
-                Saguaro
-              </button>
-            </li>
-          </ul>
-        </div>
+        <TargetSelector
+          validateSelection={validateSelection}
+          selectorTargets={selectorTargets}
+        ></TargetSelector>
       </div>
       <img
         id="img-collage"
         src={photoCollage2}
-        // onClick={handleClick}
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img>
     </div>
