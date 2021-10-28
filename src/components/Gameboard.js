@@ -15,12 +15,16 @@ function Gameboard(props) {
     { name: `Saguaro`, value: `saguaro` },
   ]);
   const [relativeLocationData, setRelativeLocationData] = useState();
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [timeOfStart, setTimeOfStart] = useState();
+  const [timeOfEnd, setTimeOfEnd] = useState();
   const db = getFirestore();
 
   useEffect(() => {
     console.log(`Gameboard mounted`);
     window.addEventListener(`click`, handleClick);
     setRelativeLocationData(props.imgLocations);
+    setTimeOfStart();
   }, []);
 
   useEffect(() => {
@@ -30,6 +34,12 @@ function Gameboard(props) {
   useEffect(() => {
     handlePointerDisplay();
   }, [clickLocation, clickedClassName]);
+
+  useEffect(() => {
+    if (selectorTargets.length === 0) {
+      setIsGameOver(true);
+    }
+  }, [selectorTargets]);
 
   const setAbsoluteTargetLocations = async () => {
     const imgCollage = document.querySelector(`#img-collage`);
@@ -187,6 +197,13 @@ function Gameboard(props) {
     }
   };
 
+  if (isGameOver) {
+    document.querySelectorAll(`.checkbox`).forEach((div) => {
+      div.style.display = "none";
+    });
+    document.querySelector(`#gameover-modal`).style.display = "flex";
+  }
+
   return (
     <div className="image-container">
       <div className="incorrect-selection-container">
@@ -217,6 +234,7 @@ function Gameboard(props) {
         src={photoCollage2}
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img>
+      <div id="gameover-modal">GAME OVER!</div>
     </div>
   );
 }

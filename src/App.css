@@ -285,3 +285,14 @@ header {
 .target-found {
   opacity: 0.125;
 }
+
+/* BEGIN - GAME OVER MODAL */
+#gameover-modal {
+  display: flex;
+  display: none;
+  position: absolute;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(94, 91, 82, 0.95);
+}
