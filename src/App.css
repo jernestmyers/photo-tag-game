@@ -135,7 +135,7 @@ body {
   height: 100%;
   --pointer-diameter: 40px;
   --btn-width: 140px;
-  --collage-width: 400px;
+  --collage-width: 600px;
 }
 
 body {
@@ -202,6 +202,7 @@ body {
 
 /* BEGIN HEADER STYLES */
 header {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

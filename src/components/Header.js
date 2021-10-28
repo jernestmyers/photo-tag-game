@@ -30,31 +30,37 @@ function Header() {
       <div id="logo-container">
         <img
           className="emblem-key"
+          id="bigBend"
           src={bigBendEmblem}
           alt="Big Bend emblem"
         ></img>
         <img
           className="emblem-key"
+          id="glacier"
           src={glacierEmblem}
           alt="Glacier emblem"
         ></img>
         <img
           className="emblem-key"
+          id="guadalupe"
           src={guadMtnsEmblem}
           alt="Guadalupe Mountains emblem"
         ></img>
         <img
           className="emblem-key"
+          id="joshuaTree"
           src={joshuaTreeEmblem}
           alt="Joshua Tree emblem"
         ></img>
         <img
           className="emblem-key"
+          id="rockies"
           src={rockyMtnsEmblem}
           alt="Rocky Mountain emblem"
         ></img>
         <img
           className="emblem-key"
+          id="saguaro"
           src={saguaroEmblem}
           alt="Saguaro emblem"
         ></img>

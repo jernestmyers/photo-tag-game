@@ -209,6 +209,7 @@ function Gameboard(props) {
           }
         })
       );
+      document.querySelector(`#${targetClicked}`).classList.add(`target-found`);
     } else {
       console.log(`${targetClicked} was NOT successfully clicked`);
     }
