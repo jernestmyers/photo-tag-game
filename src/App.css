@@ -190,15 +190,35 @@ body {
   height: auto;
 }
 
-.checkbox {
+.checkbox,
+.incorrect-selection-container {
   display: none;
   position: absolute;
   width: 2rem;
   height: 2rem;
+  color: #fc7a57;
 }
 
 path {
   fill: #eefc57;
+}
+
+.incorrect-selection-container {
+  /* display: none; */
+  /* display: flex; */
+  align-items: center;
+  width: auto;
+  font-weight: bold;
+}
+
+.incorrect-icon {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.25rem;
+}
+
+#incorrect-icon-color {
+  fill: #fc7a57;
 }
 
 /* BEGIN HEADER STYLES */

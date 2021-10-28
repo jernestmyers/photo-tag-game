@@ -50,7 +50,7 @@ function Gameboard(props) {
   };
 
   const handleClick = (e) => {
-    console.log({ x: e.pageX, y: e.pageY });
+    // console.log({ x: e.pageX, y: e.pageY });
     if (e.target.className !== `choose-park-btn`) {
       setClickLocation({ x: e.pageX, y: e.pageY });
     }
@@ -58,6 +58,9 @@ function Gameboard(props) {
   };
 
   const handlePointerDisplay = (e) => {
+    document.querySelector(
+      `.incorrect-selection-container`
+    ).style.display = `none`;
     const pointer = document.querySelector(`.pointer`);
     const imgCollage = document.querySelector(`#img-collage`);
     if (
@@ -123,6 +126,10 @@ function Gameboard(props) {
 
   const validateSelection = async (e) => {
     const targetClicked = e.target.value;
+    const body = document.querySelector(`body`);
+    const getFontSize = window
+      .getComputedStyle(body)
+      .getPropertyValue(`font-size`);
     const targetRef = doc(db, "absolute-img-locations", `${targetClicked}`);
     const getAbsoluteData = await getDoc(targetRef);
     const absoluteData = getAbsoluteData.data();
@@ -142,11 +149,7 @@ function Gameboard(props) {
 
       // BEGIN - turns on class to set opacity of emblem to 12.5% and displays a checkmark at the clickLocation
       document.querySelector(`#${targetClicked}`).classList.add(`target-found`);
-      const body = document.querySelector(`body`);
       const imgContainer = document.querySelector(`.image-container`);
-      const getFontSize = window
-        .getComputedStyle(body)
-        .getPropertyValue(`font-size`);
       const divForCheckmark = document.createElement(`div`);
       divForCheckmark.classList.add(`checkbox`);
       divForCheckmark.innerHTML = `<svg
@@ -171,12 +174,38 @@ function Gameboard(props) {
       imgContainer.appendChild(divForCheckmark);
       // END - turns on class to set opacity of emblem to 12.5% and displays a checkmark at the clickLocation
     } else {
-      console.log(`${targetClicked} was NOT successfully clicked`);
+      const wrongAnswerDiv = document.querySelector(
+        `.incorrect-selection-container`
+      );
+      wrongAnswerDiv.style.display = `flex`;
+      wrongAnswerDiv.style.left = `${
+        clickLocation.x - +getFontSize.substring(0, getFontSize.length - 2)
+      }px`;
+      wrongAnswerDiv.style.top = `${
+        clickLocation.y - +getFontSize.substring(0, getFontSize.length - 2)
+      }px`;
     }
   };
 
   return (
     <div className="image-container">
+      <div className="incorrect-selection-container">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="far"
+          data-icon="times-circle"
+          className="incorrect-icon"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+        >
+          <path
+            id="incorrect-icon-color"
+            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm101.8-262.2L295.6 256l62.2 62.2c4.7 4.7 4.7 12.3 0 17l-22.6 22.6c-4.7 4.7-12.3 4.7-17 0L256 295.6l-62.2 62.2c-4.7 4.7-12.3 4.7-17 0l-22.6-22.6c-4.7-4.7-4.7-12.3 0-17l62.2-62.2-62.2-62.2c-4.7-4.7-4.7-12.3 0-17l22.6-22.6c4.7-4.7 12.3-4.7 17 0l62.2 62.2 62.2-62.2c4.7-4.7 12.3-4.7 17 0l22.6 22.6c4.7 4.7 4.7 12.3 0 17z"
+          ></path>
+        </svg>
+      </div>
       <div className="pointer">
         <TargetSelector
           validateSelection={validateSelection}
