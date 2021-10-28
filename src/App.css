@@ -135,7 +135,7 @@ body {
   height: 100%;
   --pointer-diameter: 40px;
   --btn-width: 140px;
-  --collage-width: 600px;
+  --collage-width: 400px;
 }
 
 body {
@@ -190,7 +190,7 @@ body {
   height: auto;
 }
 
-/* #big-bend-answer,
+#big-bend-answer,
 #glacier-answer,
 #joshua-answer,
 #rockies-answer,
@@ -198,7 +198,7 @@ body {
 #guad-answer {
   position: absolute;
   border: 1px solid #eefc57;
-} */
+}
 
 /* BEGIN HEADER STYLES */
 header {
@@ -258,4 +258,8 @@ header {
 .emblem-key {
   width: auto;
   height: 50px;
+}
+
+.target-found {
+  opacity: 0.125;
 }

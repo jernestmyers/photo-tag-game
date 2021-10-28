@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 function TargetSelector(props) {
-  //   console.log(props.selectorTargets);
   return (
     <div id="park-selector-container">
       <ul id="park-selector">

@@ -22,12 +22,12 @@ function App() {
   useEffect(() => {
     initializeApp(firebaseConfig);
     const db = getFirestore();
-    getImgLocations(db);
+    getRelativeImgLocations(db);
   }, []);
 
   const [imgLocations, setImgLocations] = useState([]);
 
-  async function getImgLocations(database) {
+  async function getRelativeImgLocations(database) {
     const dataHelper = [];
     const querySnapshot = await getDocs(
       collection(database, "relative-img-locations")

@@ -36,27 +36,27 @@ function Header() {
         <img
           className="emblem-key"
           src={glacierEmblem}
-          alt="Big Bend emblem"
+          alt="Glacier emblem"
         ></img>
         <img
           className="emblem-key"
           src={guadMtnsEmblem}
-          alt="Big Bend emblem"
+          alt="Guadalupe Mountains emblem"
         ></img>
         <img
           className="emblem-key"
           src={joshuaTreeEmblem}
-          alt="Big Bend emblem"
+          alt="Joshua Tree emblem"
         ></img>
         <img
           className="emblem-key"
           src={rockyMtnsEmblem}
-          alt="Big Bend emblem"
+          alt="Rocky Mountain emblem"
         ></img>
         <img
           className="emblem-key"
           src={saguaroEmblem}
-          alt="Big Bend emblem"
+          alt="Saguaro emblem"
         ></img>
       </div>
     </header>
