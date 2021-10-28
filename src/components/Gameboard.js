@@ -70,7 +70,7 @@ function Gameboard(props) {
   };
 
   const handleClick = (e) => {
-    console.log({ x: e.pageX, y: e.pageY });
+    // console.log({ x: e.pageX, y: e.pageY });
     if (e.target.className !== `choose-park-btn`) {
       setClickLocation({ x: e.pageX, y: e.pageY });
     }
@@ -225,12 +225,12 @@ function Gameboard(props) {
     }
   };
 
-  //   if (isGameOver) {
-  //     document.querySelectorAll(`.checkbox`).forEach((div) => {
-  //       div.style.display = "none";
-  //     });
-  //     document.querySelector(`#gameover-modal`).style.display = "flex";
-  //   }
+  if (isGameOver) {
+    document.querySelectorAll(`.checkbox`).forEach((div) => {
+      div.style.display = "none";
+    });
+    document.querySelector(`#gameover-modal`).style.display = "flex";
+  }
 
   return (
     <div className="image-container">
@@ -263,13 +263,16 @@ function Gameboard(props) {
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img>
       <div id="gameover-modal">
-        {isGameOver ? (
-          <div>
-            <h2>GAME OVER</h2>
-            <p>You finished in {duration / 1000} seconds!</p>
-            <Leaderboard isGameOver={isGameOver}></Leaderboard>
-          </div>
-        ) : null}
+        {/* {isGameOver ? ( */}
+        <div>
+          <h2>GAME OVER</h2>
+          <p>You finished in {duration / 1000} seconds!</p>
+          <Leaderboard
+            isGameOver={isGameOver}
+            duration={duration}
+          ></Leaderboard>
+        </div>
+        {/* ) : null} */}
       </div>
     </div>
   );

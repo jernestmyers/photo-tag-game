@@ -9,10 +9,22 @@ import {
 
 function Leaderboard(props) {
   const [leaderboard, setLeaderboard] = useState();
+  //   const [leaderboardPreview, setLeaderboardPreview] = useState();
 
   useEffect(() => {
+    console.log(`Leaderboard mounted`);
     fetchLeaderboard();
-  }, [props.isGameOver]);
+  }, []);
+
+  let leaderboardPreview = [];
+  if (leaderboard && props.isGameOver) {
+    leaderboardPreview = leaderboard
+      .concat({
+        id: `test`,
+        data: { name: `test`, time: props.duration / 1000 },
+      })
+      .sort((a, b) => a.data.time - b.data.time);
+  }
 
   const fetchLeaderboard = async () => {
     const db = getFirestore();
@@ -25,9 +37,26 @@ function Leaderboard(props) {
     setLeaderboard(dataHelper.sort((a, b) => a.data.time - b.data.time));
   };
 
-  console.log(leaderboard);
+  console.log(leaderboardPreview);
 
-  return <div id="leaderboard-container"></div>;
+  return (
+    <div id="leaderboard-container">
+      {props.isGameOver
+        ? leaderboard.slice(0, 5).map((leader, index) => {
+            return (
+              <div key={leader.id}>
+                {index + 1}. {leader.data.name} - {leader.data.time} seconds
+              </div>
+            );
+          })
+        : null}
+    </div>
+  );
 }
 
 export default Leaderboard;
+
+// fetch leaderboard
+// compare user's time to leaderboard
+// ask user to submit name or cancel
+// if user submits name, push their time to firestore
