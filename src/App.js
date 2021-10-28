@@ -33,7 +33,6 @@ function App() {
       collection(database, "relative-img-locations")
     );
     querySnapshot.forEach((doc) => {
-      // console.log(doc.id);
       dataHelper.push([doc.id, doc.data()]);
     });
     setImgLocations(dataHelper);
