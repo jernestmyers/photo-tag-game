@@ -190,14 +190,15 @@ body {
   height: auto;
 }
 
-#big-bend-answer,
-#glacier-answer,
-#joshua-answer,
-#rockies-answer,
-#saguaro-answer,
-#guad-answer {
+.checkbox {
+  display: none;
   position: absolute;
-  border: 1px solid #eefc57;
+  width: 2rem;
+  height: 2rem;
+}
+
+path {
+  fill: #eefc57;
 }
 
 /* BEGIN HEADER STYLES */
