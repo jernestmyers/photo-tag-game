@@ -24,9 +24,7 @@ function Header() {
           </p>
         </div>
       </div>
-      {/* <div>
-        <h2>Find these national park emblems on the poster below.</h2>
-      </div> */}
+      {/* <h2>Find these National Park emblems on the poster below.</h2> */}
       <div id="logo-container">
         <img
           className="emblem-key"

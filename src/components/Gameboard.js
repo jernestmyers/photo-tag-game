@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 import TargetSelector from "./TargetSelector";
+import Leaderboard from "./Leaderboard";
 import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
 import { differenceInMilliseconds } from "date-fns";
 
@@ -69,7 +70,7 @@ function Gameboard(props) {
   };
 
   const handleClick = (e) => {
-    // console.log({ x: e.pageX, y: e.pageY });
+    console.log({ x: e.pageX, y: e.pageY });
     if (e.target.className !== `choose-park-btn`) {
       setClickLocation({ x: e.pageX, y: e.pageY });
     }
@@ -224,18 +225,12 @@ function Gameboard(props) {
     }
   };
 
-  if (isGameOver) {
-    document.querySelectorAll(`.checkbox`).forEach((div) => {
-      div.style.display = "none";
-    });
-    document.querySelector(`#gameover-modal`).style.display = "flex";
-  }
-
-  const formatDuration = () => {
-    // const testDuration = 12345;
-    // const seconds = testDuration / 1000;
-    return `${duration / 1000} seconds`;
-  };
+  //   if (isGameOver) {
+  //     document.querySelectorAll(`.checkbox`).forEach((div) => {
+  //       div.style.display = "none";
+  //     });
+  //     document.querySelector(`#gameover-modal`).style.display = "flex";
+  //   }
 
   return (
     <div className="image-container">
@@ -268,8 +263,13 @@ function Gameboard(props) {
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img>
       <div id="gameover-modal">
-        <h2>GAME OVER</h2>
-        <p>You finished in {duration / 1000} seconds!</p>
+        {isGameOver ? (
+          <div>
+            <h2>GAME OVER</h2>
+            <p>You finished in {duration / 1000} seconds!</p>
+            <Leaderboard isGameOver={isGameOver}></Leaderboard>
+          </div>
+        ) : null}
       </div>
     </div>
   );
