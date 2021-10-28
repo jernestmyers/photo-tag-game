@@ -113,6 +113,14 @@ function Gameboard(props) {
           0,
           selectorContainerWidthString.length - 2
         );
+      const selectorContainerHeightString = window
+        .getComputedStyle(selectorContainer)
+        .getPropertyValue(`height`);
+      const selectorContainerHeightInteger =
+        +selectorContainerHeightString.substring(
+          0,
+          selectorContainerHeightString.length - 2
+        );
       const parkSelector = document.querySelector(`#park-selector`);
 
       // BEGIN - if-else block to determine if selector displays left or right of pointer window
@@ -123,7 +131,7 @@ function Gameboard(props) {
           pointerDiameterInteger / 2 <=
         imgCollage.offsetLeft + imgCollage.width
       ) {
-        selectorContainer.style.left = `${pointerDiameterInteger}px`;
+        selectorContainer.style.left = `${pointerDiameterInteger + 5}px`;
         selectorContainer.style.right = ``;
         parkSelector.style.alignItems = `flex-start`;
       } else {
@@ -132,6 +140,16 @@ function Gameboard(props) {
           selectorContainerWidthInteger + pointerDiameterInteger / 5
         }px`;
         parkSelector.style.alignItems = `flex-end`;
+      }
+      if (
+        clickLocation.y + selectorContainerHeightInteger >=
+        imgCollage.offsetTop + imgCollage.height
+      ) {
+        selectorContainer.style.top = `-${
+          selectorContainerHeightInteger - pointerDiameterInteger
+        }px`;
+      } else {
+        selectorContainer.style.top = ``;
       }
       // END - if-else block to determine if selector displays left or right of pointer window
       // END - display properties for the selectors

@@ -133,7 +133,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-  --pointer-diameter: 40px;
+  --pointer-diameter: 2rem;
   --btn-width: 140px;
   --collage-width: 600px;
 }
@@ -156,7 +156,7 @@ body {
 .pointer {
   display: none;
   position: absolute;
-  border: 5px solid #eefc57;
+  border: 0.125rem dotted #eefc57;
   height: var(--pointer-diameter);
   width: var(--pointer-diameter);
   border-radius: 50%;
