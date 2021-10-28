@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 import TargetSelector from "./TargetSelector";
 import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
+import { differenceInMilliseconds } from "date-fns";
 
 function Gameboard(props) {
   const [clickLocation, setClickLocation] = useState({});
@@ -18,13 +19,14 @@ function Gameboard(props) {
   const [isGameOver, setIsGameOver] = useState(false);
   const [timeOfStart, setTimeOfStart] = useState();
   const [timeOfEnd, setTimeOfEnd] = useState();
+  const [duration, setDuration] = useState(0);
   const db = getFirestore();
 
   useEffect(() => {
     console.log(`Gameboard mounted`);
     window.addEventListener(`click`, handleClick);
     setRelativeLocationData(props.imgLocations);
-    setTimeOfStart();
+    setTimeOfStart(new Date());
   }, []);
 
   useEffect(() => {
@@ -38,8 +40,15 @@ function Gameboard(props) {
   useEffect(() => {
     if (selectorTargets.length === 0) {
       setIsGameOver(true);
+      setTimeOfEnd(new Date());
     }
   }, [selectorTargets]);
+
+  useEffect(() => {
+    if (isGameOver) {
+      setDuration(differenceInMilliseconds(timeOfEnd, timeOfStart));
+    }
+  }, [timeOfEnd]);
 
   const setAbsoluteTargetLocations = async () => {
     const imgCollage = document.querySelector(`#img-collage`);
@@ -204,6 +213,12 @@ function Gameboard(props) {
     document.querySelector(`#gameover-modal`).style.display = "flex";
   }
 
+  const formatDuration = () => {
+    // const testDuration = 12345;
+    // const seconds = testDuration / 1000;
+    return `${duration / 1000} seconds`;
+  };
+
   return (
     <div className="image-container">
       <div className="incorrect-selection-container">
@@ -234,7 +249,10 @@ function Gameboard(props) {
         src={photoCollage2}
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img>
-      <div id="gameover-modal">GAME OVER!</div>
+      <div id="gameover-modal">
+        <h2>GAME OVER</h2>
+        <p>You finished in {duration / 1000} seconds!</p>
+      </div>
     </div>
   );
 }
