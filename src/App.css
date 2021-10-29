@@ -291,7 +291,7 @@ h2 {
   opacity: 0.125;
 }
 
-/* BEGIN - GAME OVER MODAL */
+/* !!!!!!!!----- BEGIN - GAME OVER MODAL -----!!!!! */
 #gameover-modal {
   display: flex;
   flex-direction: column;
@@ -300,10 +300,66 @@ h2 {
   /* justify-content: center; */
   align-items: center;
   width: 350px;
-  height: 300px;
-  background-color: rgba(94, 91, 82, 0.75);
+  /* height: 300px; */
+  background-color: rgba(232, 225, 199, 0.75);
   line-height: 2rem;
-  font-weight: bold;
-  color: #eefc57;
+  color: #5e5b52;
   border-radius: 0.75rem;
+  padding: 1rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0px auto;
+  width: 100%;
+}
+
+thead {
+  color: #5e5b52;
+  font-weight: bold;
+}
+
+td {
+  /* padding: 10px 5px 5px 5px; */
+  /* padding: 10px 5px 5px 5px; */
+  /* font-size: 16px; */
+  border-bottom: 0.125rem solid #5e5b52;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.user-display-leaderboard {
+  background-color: rgba(252, 122, 87, 0.5);
+}
+
+h3 {
+  /* color: #d17da1; */
+}
+
+tr:last-child td {
+  border-bottom: 0px;
+}
+
+.modal-header {
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
+
+#leaderboard-header {
+  font-size: 1.125rem;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+  text-decoration-thickness: 0.125rem;
+}
+
+#time-finished {
+  color: #d17da1;
+  font-weight: bold;
+}
+
+#table-spacer-row {
+  font-weight: bold;
 }

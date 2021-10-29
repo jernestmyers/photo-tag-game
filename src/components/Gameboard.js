@@ -265,16 +265,13 @@ function Gameboard(props) {
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img>
       <div id="gameover-modal">
-        {/* {isGameOver ? ( */}
-        <div>
-          <h2>GAME OVER</h2>
-          <p>You finished in {duration / 1000} seconds!</p>
-          <Leaderboard
-            isGameOver={isGameOver}
-            duration={duration}
-          ></Leaderboard>
-        </div>
-        {/* ) : null} */}
+        <h2 className="modal-header">GAME OVER</h2>
+        <p>
+          You finished in <span id="time-finished">{duration / 1000}</span>{" "}
+          seconds!
+        </p>
+        <Leaderboard isGameOver={isGameOver} duration={duration}></Leaderboard>
+        <button>Play Again?</button>
       </div>
     </div>
   );

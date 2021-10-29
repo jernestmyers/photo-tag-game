@@ -42,7 +42,7 @@ function Leaderboard(props) {
 
   return (
     <div id="leaderboard-container">
-      <h3>Most Fabulously Fast Five</h3>
+      <h3 id="leaderboard-header">The Most Fabulously Fast Five</h3>
       {props.isGameOver ? (
         leaderboardPreview.indexOf(userObject) <= 4 ? (
           <table>
@@ -57,7 +57,10 @@ function Leaderboard(props) {
               {leaderboardPreview.slice(0, 5).map((leader, index) => {
                 if (leader === userObject) {
                   return (
-                    <tr key={leader.id}>
+                    <tr
+                      className="user-display-leaderboard"
+                      key={userObject.id}
+                    >
                       <td>{index + 1}.</td>
                       <td>
                         <input
@@ -65,7 +68,7 @@ function Leaderboard(props) {
                           placeholder="enter your name"
                         ></input>
                       </td>
-                      <td>{leader.data.time}</td>
+                      <td>{userObject.data.time}</td>
                     </tr>
                   );
                 } else {
@@ -99,12 +102,10 @@ function Leaderboard(props) {
                   </tr>
                 );
               })}
-              <tr>
-                <td>. . .</td>
-                <td></td>
-                <td></td>
+              <tr id="table-spacer-row">
+                <td colSpan="3">. . . . . . </td>
               </tr>
-              <tr key={userObject.id}>
+              <tr className="user-display-leaderboard" key={userObject.id}>
                 <td>{leaderboardPreview.indexOf(userObject) + 1}.</td>
                 <td>
                   <input type="text" placeholder="enter your name"></input>{" "}
