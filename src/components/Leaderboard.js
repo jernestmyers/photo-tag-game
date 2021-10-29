@@ -17,12 +17,13 @@ function Leaderboard(props) {
   }, []);
 
   let leaderboardPreview = [];
+  const userObject = {
+    id: `test`,
+    data: { name: `test`, time: props.duration / 1000 },
+  };
   if (leaderboard && props.isGameOver) {
     leaderboardPreview = leaderboard
-      .concat({
-        id: `test`,
-        data: { name: `test`, time: props.duration / 1000 },
-      })
+      .concat(userObject)
       .sort((a, b) => a.data.time - b.data.time);
   }
 
@@ -37,19 +38,48 @@ function Leaderboard(props) {
     setLeaderboard(dataHelper.sort((a, b) => a.data.time - b.data.time));
   };
 
-  console.log(leaderboardPreview);
+  console.log(leaderboardPreview.indexOf(userObject));
 
   return (
     <div id="leaderboard-container">
-      {props.isGameOver
-        ? leaderboard.slice(0, 5).map((leader, index) => {
-            return (
-              <div key={leader.id}>
-                {index + 1}. {leader.data.name} - {leader.data.time} seconds
-              </div>
-            );
+      <h3>Most Fabulously Fast Five</h3>
+      {props.isGameOver ? (
+        leaderboardPreview.indexOf(userObject) <= 4 ? (
+          leaderboardPreview.slice(0, 5).map((leader, index) => {
+            if (leader === userObject) {
+              return (
+                <div key={leader.id}>
+                  {index + 1}.{" "}
+                  <input type="text" placeholder="enter your name"></input> -{" "}
+                  {leader.data.time} seconds
+                </div>
+              );
+            } else {
+              return (
+                <div key={leader.id}>
+                  {index + 1}. {leader.data.name} - {leader.data.time} seconds
+                </div>
+              );
+            }
           })
-        : null}
+        ) : (
+          <div>
+            {leaderboardPreview.slice(0, 5).map((leader, index) => {
+              return (
+                <div key={leader.id}>
+                  {index + 1}. {leader.data.name} - {leader.data.time} seconds
+                </div>
+              );
+            })}{" "}
+            <span>. . .</span>
+            <div key={userObject.id}>
+              {leaderboardPreview.indexOf(userObject) + 1}.{" "}
+              <input type="text" placeholder="enter your name"></input> -{" "}
+              {userObject.data.time} seconds
+            </div>
+          </div>
+        )
+      ) : null}
     </div>
   );
 }

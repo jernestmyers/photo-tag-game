@@ -230,6 +230,8 @@ function Gameboard(props) {
       div.style.display = "none";
     });
     document.querySelector(`#gameover-modal`).style.display = "flex";
+    const imgCollage = document.querySelector(`#img-collage`);
+    imgCollage.style.filter = `blur(0.1875rem)`;
   }
 
   return (
