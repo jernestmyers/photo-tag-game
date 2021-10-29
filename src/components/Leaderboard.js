@@ -45,41 +45,140 @@ function Leaderboard(props) {
       <h3>Most Fabulously Fast Five</h3>
       {props.isGameOver ? (
         leaderboardPreview.indexOf(userObject) <= 4 ? (
-          leaderboardPreview.slice(0, 5).map((leader, index) => {
-            if (leader === userObject) {
-              return (
-                <div key={leader.id}>
-                  {index + 1}.{" "}
-                  <input type="text" placeholder="enter your name"></input> -{" "}
-                  {leader.data.time} seconds
-                </div>
-              );
-            } else {
-              return (
-                <div key={leader.id}>
-                  {index + 1}. {leader.data.name} - {leader.data.time} seconds
-                </div>
-              );
-            }
-          })
+          <table>
+            <thead>
+              <tr className="leaderboardHeader">
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Time (s)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leaderboardPreview.slice(0, 5).map((leader, index) => {
+                if (leader === userObject) {
+                  return (
+                    <tr key={leader.id}>
+                      <td>{index + 1}.</td>
+                      <td>
+                        <input
+                          type="text"
+                          placeholder="enter your name"
+                        ></input>
+                      </td>
+                      <td>{leader.data.time}</td>
+                    </tr>
+                  );
+                } else {
+                  return (
+                    <tr key={leader.id}>
+                      <td>{index + 1}.</td>
+                      <td>{leader.data.name}</td>
+                      <td>{leader.data.time}</td>
+                    </tr>
+                  );
+                }
+              })}
+            </tbody>
+          </table>
         ) : (
-          <div>
-            {leaderboardPreview.slice(0, 5).map((leader, index) => {
-              return (
-                <div key={leader.id}>
-                  {index + 1}. {leader.data.name} - {leader.data.time} seconds
-                </div>
-              );
-            })}{" "}
-            <span>. . .</span>
-            <div key={userObject.id}>
-              {leaderboardPreview.indexOf(userObject) + 1}.{" "}
-              <input type="text" placeholder="enter your name"></input> -{" "}
-              {userObject.data.time} seconds
-            </div>
-          </div>
+          <table>
+            <thead>
+              <tr className="leaderboardHeader">
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Time (s)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leaderboardPreview.slice(0, 5).map((leader, index) => {
+                return (
+                  <tr key={leader.id}>
+                    <td>{index + 1}.</td>
+                    <td>{leader.data.name}</td>
+                    <td>{leader.data.time}</td>
+                  </tr>
+                );
+              })}
+              <tr>
+                <td>. . .</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr key={userObject.id}>
+                <td>{leaderboardPreview.indexOf(userObject) + 1}.</td>
+                <td>
+                  <input type="text" placeholder="enter your name"></input>{" "}
+                </td>
+                <td>{userObject.data.time}</td>
+              </tr>
+            </tbody>
+          </table>
         )
       ) : null}
+
+      {/* <table>
+        <thead>
+          <tr className="leaderboardHeader">
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Time (s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.isGameOver ? (
+            leaderboardPreview.indexOf(userObject) <= 4 ? (
+              leaderboardPreview.slice(0, 5).map((leader, index) => {
+                if (leader === userObject) {
+                  return (
+                    <tr key={leader.id}>
+                      <td>{index + 1}.</td>
+                      <td>
+                        <input
+                          type="text"
+                          placeholder="enter your name"
+                        ></input>
+                      </td>
+                      <td>{leader.data.time}</td>
+                    </tr>
+                  );
+                } else {
+                  return (
+                    <tr key={leader.id}>
+                      <td>{index + 1}.</td>
+                      <td>{leader.data.name}</td>
+                      <td>{leader.data.time}</td>
+                    </tr>
+                  );
+                }
+              })
+            ) : (
+              <tr>
+                {leaderboardPreview.slice(0, 5).map((leader, index) => {
+                  return (
+                    <tr key={leader.id}>
+                      <td>{index + 1}.</td>
+                      <td>{leader.data.name}</td>
+                      <td>{leader.data.time}</td>
+                    </tr>
+                  );
+                })}{" "}
+                <tr>
+                  <td>. . .</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr key={userObject.id}>
+                  <td>{leaderboardPreview.indexOf(userObject) + 1}.</td>
+                  <td>
+                    <input type="text" placeholder="enter your name"></input>{" "}
+                  </td>
+                  <td>{userObject.data.time}</td>
+                </tr>
+              </tr>
+            )
+          ) : null}
+        </tbody>
+      </table> */}
     </div>
   );
 }
@@ -90,3 +189,17 @@ export default Leaderboard;
 // compare user's time to leaderboard
 // ask user to submit name or cancel
 // if user submits name, push their time to firestore
+
+/* <table>
+                    <thead>
+                        <tr class="bookDisplayHeader">
+                            <th class="bookInfoDisplay">TITLE</th>
+                            <th class="bookInfoDisplay">AUTHOR</th>
+                            <th class="bookInfoDisplay">PAGE LENGTH</th>
+                            <th class="bookInfoDisplay">READ STATUS</th>
+                            <th class="bookInfoDisplay">REMOVE BOOK</th>
+                        </tr>
+                    <tbody>
+                        
+                    </tbody>
+                </table> */
