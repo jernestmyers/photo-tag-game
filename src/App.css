@@ -309,6 +309,10 @@ h2 {
   font-size: 0.9rem;
 }
 
+#leaderboard-container {
+  width: 100%;
+}
+
 table {
   border-collapse: collapse;
   margin: 0px auto;
@@ -362,4 +366,18 @@ tr:last-child td {
 
 #table-spacer-row {
   font-weight: bold;
+}
+
+/* #input-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+} */
+
+.leaderboard-input {
+  width: 10rem;
+  height: 1.5rem;
+  border: none;
+  /* background-color: rgba(94, 91, 82, 0.25); */
+  border-radius: 0.25rem;
 }

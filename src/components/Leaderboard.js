@@ -62,11 +62,13 @@ function Leaderboard(props) {
                       key={userObject.id}
                     >
                       <td>{index + 1}.</td>
-                      <td>
+                      <td id="input-container">
                         <input
+                          className="leaderboard-input"
                           type="text"
                           placeholder="enter your name"
                         ></input>
+                        <button>add</button>
                       </td>
                       <td>{userObject.data.time}</td>
                     </tr>
@@ -107,8 +109,13 @@ function Leaderboard(props) {
               </tr>
               <tr className="user-display-leaderboard" key={userObject.id}>
                 <td>{leaderboardPreview.indexOf(userObject) + 1}.</td>
-                <td>
-                  <input type="text" placeholder="enter your name"></input>{" "}
+                <td id="input-container">
+                  <input
+                    type="text"
+                    className="leaderboard-input"
+                    placeholder="enter your name"
+                  ></input>
+                  <button>add</button>
                 </td>
                 <td>{userObject.data.time}</td>
               </tr>
