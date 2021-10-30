@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  getFirestore,
-  getDocs,
-  doc,
-  setDoc,
-  collection,
-} from "firebase/firestore";
+import { getDocs, doc, setDoc, collection } from "firebase/firestore";
 import uniqid from "uniqid";
 
 function Leaderboard(props) {
@@ -29,9 +23,8 @@ function Leaderboard(props) {
 
   const fetchLeaderboard = async () => {
     console.log(`firestore: fetch leaderboard`);
-    const db = getFirestore();
     const dataHelper = [];
-    const targetRef = collection(db, "leaderboard");
+    const targetRef = collection(props.db, "leaderboard");
     const getLeaderboard = await getDocs(targetRef);
     getLeaderboard.forEach((leader) => {
       dataHelper.push({ id: leader.id, data: leader.data() });
@@ -41,7 +34,6 @@ function Leaderboard(props) {
 
   const handleAddTime = async () => {
     console.log(`firestore: set time`);
-    const db = getFirestore();
     const targetColumn = document.querySelector(`#submit-time-container`);
     const nameInput = document.querySelector(`.leaderboard-input`);
     if (nameInput.value) {
@@ -49,7 +41,10 @@ function Leaderboard(props) {
       targetColumn.textContent = nameInput.value;
       userObject.id = uniqid();
       userObject.data.name = nameInput.value;
-      await setDoc(doc(db, "leaderboard", userObject.id), userObject.data);
+      await setDoc(
+        doc(props.db, "leaderboard", userObject.id),
+        userObject.data
+      );
     }
   };
 

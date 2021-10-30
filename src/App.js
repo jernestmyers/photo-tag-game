@@ -17,11 +17,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore();
 
 function App() {
   useEffect(() => {
     initializeApp(firebaseConfig);
-    const db = getFirestore();
     getRelativeImgLocations(db);
   }, []);
 
@@ -42,7 +42,7 @@ function App() {
   return (
     <div>
       <Header></Header>
-      <Gameboard imgLocations={imgLocations}></Gameboard>
+      <Gameboard db={db} imgLocations={imgLocations}></Gameboard>
     </div>
   );
 }

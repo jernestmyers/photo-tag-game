@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 import TargetSelector from "./TargetSelector";
 import Leaderboard from "./Leaderboard";
-import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
+import { getDoc, doc, setDoc } from "firebase/firestore";
 import { differenceInMilliseconds } from "date-fns";
+import uniqid from "uniqid";
 
 function Gameboard(props) {
   const [clickLocation, setClickLocation] = useState({});
@@ -21,7 +22,6 @@ function Gameboard(props) {
   const [timeOfStart, setTimeOfStart] = useState();
   const [timeOfEnd, setTimeOfEnd] = useState();
   const [duration, setDuration] = useState(0);
-  const db = getFirestore();
 
   useEffect(() => {
     console.log(`Gameboard mounted`);
@@ -54,8 +54,29 @@ function Gameboard(props) {
   const setAbsoluteTargetLocations = async () => {
     console.log(`firestore: set absolute locations`);
     const imgCollage = document.querySelector(`#img-collage`);
+
+    // BEGIN - restructured data with a uniqid to identify each user's unique absoluteLocationData
+    // const id = uniqid();
+    // const absoluteData = await props.imgLocations.map((target) => {
+    //   return {
+    //     park: target[0],
+    //     minX: target[1].offsetLeft * imgCollage.width + imgCollage.offsetLeft,
+    //     minY: target[1].offsetTop * imgCollage.height + imgCollage.offsetTop,
+    //     maxX:
+    //       target[1].offsetLeft * imgCollage.width +
+    //       imgCollage.offsetLeft +
+    //       target[1].width * imgCollage.width,
+    //     maxY:
+    //       target[1].offsetTop * imgCollage.height +
+    //       imgCollage.offsetTop +
+    //       target[1].height * imgCollage.height,
+    //   };
+    // });
+    // console.log(absoluteData);
+    // await setDoc(doc(props.db, "absolute-img-locations", id), { absoluteData });
+
     await props.imgLocations.forEach((target) => {
-      setDoc(doc(db, "absolute-img-locations", target[0]), {
+      setDoc(doc(props.db, "absolute-img-locations", target[0]), {
         minX: target[1].offsetLeft * imgCollage.width + imgCollage.offsetLeft,
         minY: target[1].offsetTop * imgCollage.height + imgCollage.offsetTop,
         maxX:
@@ -169,7 +190,11 @@ function Gameboard(props) {
     const getFontSize = window
       .getComputedStyle(body)
       .getPropertyValue(`font-size`);
-    const targetRef = doc(db, "absolute-img-locations", `${targetClicked}`);
+    const targetRef = doc(
+      props.db,
+      "absolute-img-locations",
+      `${targetClicked}`
+    );
     const getAbsoluteData = await getDoc(targetRef);
     const absoluteData = getAbsoluteData.data();
     if (
@@ -271,7 +296,11 @@ function Gameboard(props) {
           You finished in <span id="time-finished">{duration / 1000}</span>{" "}
           seconds!
         </p>
-        <Leaderboard isGameOver={isGameOver} duration={duration}></Leaderboard>
+        <Leaderboard
+          db={props.db}
+          isGameOver={isGameOver}
+          duration={duration}
+        ></Leaderboard>
         <button className="new-game-btn">Play Again?</button>
       </div>
     </div>
