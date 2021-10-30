@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 import TargetSelector from "./TargetSelector";
-import Leaderboard from "./Leaderboard";
+// import Leaderboard from "./Leaderboard";
+import GameOverModal from "./GameOverModal";
 import { getDoc, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { differenceInMilliseconds } from "date-fns";
 import uniqid from "uniqid";
@@ -75,7 +76,7 @@ function Gameboard(props) {
           target[1].height * imgCollage.height,
       };
     });
-    // console.log(absoluteData);
+    console.log(absoluteData);
     await setDoc(doc(props.db, "absolute-img-locations", id), { absoluteData });
 
     // await props.imgLocations.forEach((target) => {
@@ -95,7 +96,7 @@ function Gameboard(props) {
   };
 
   const handleClick = (e) => {
-    console.log({ x: e.pageX, y: e.pageY });
+    // console.log({ x: e.pageX, y: e.pageY });
     if (e.target.className !== `choose-park-btn`) {
       setClickLocation({ x: e.pageX, y: e.pageY });
     }
@@ -323,7 +324,7 @@ function Gameboard(props) {
         src={photoCollage2}
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img>
-      <div id="gameover-modal">
+      {/* <div id="gameover-modal">
         <h2 className="modal-header">GAME OVER</h2>
         <p>
           You finished in <span id="time-finished">{duration / 1000}</span>{" "}
@@ -335,7 +336,12 @@ function Gameboard(props) {
           duration={duration}
         ></Leaderboard>
         <button className="new-game-btn">Play Again?</button>
-      </div>
+      </div> */}
+      <GameOverModal
+        db={props.db}
+        isGameOver={isGameOver}
+        duration={duration}
+      ></GameOverModal>
     </div>
   );
 }

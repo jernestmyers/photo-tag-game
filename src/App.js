@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Gameboard from "./components/Gameboard";
 import Header from "./components/Header";
+import Gameboard from "./components/Gameboard";
+import BeginGameModal from "./components/BeginGameModal";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 
@@ -20,12 +21,16 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
 function App() {
+  const [imgLocations, setImgLocations] = useState([]);
+  const [isInitialLoad, setIsInitialLoad] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
+
   useEffect(() => {
+    console.log(`App component mounted`);
     initializeApp(firebaseConfig);
     getRelativeImgLocations(db);
+    setIsInitialLoad(true);
   }, []);
-
-  const [imgLocations, setImgLocations] = useState([]);
 
   async function getRelativeImgLocations(database) {
     console.log(`firestore: fetch relative positions`);
@@ -42,7 +47,18 @@ function App() {
   return (
     <div>
       <Header></Header>
-      <Gameboard db={db} imgLocations={imgLocations}></Gameboard>
+      <Gameboard
+        db={db}
+        imgLocations={imgLocations}
+        setIsGameStarted={setIsGameStarted}
+        setImgLocations={setImgLocations}
+      ></Gameboard>
+      {isInitialLoad ? (
+        <BeginGameModal
+          setIsInitialLoad={setIsInitialLoad}
+          setIsGameStarted={setIsGameStarted}
+        ></BeginGameModal>
+      ) : null}
     </div>
   );
 }
