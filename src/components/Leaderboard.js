@@ -55,6 +55,22 @@ function Leaderboard(props) {
     }
   };
 
+  const ordinalRanking = (index) => {
+    const rank = +index + 1;
+    const rankString = rank.toString();
+    const lastNumber = rankString[rankString.length - 1];
+    const lastTwoNumbers = rankString.slice(rankString.length - 2);
+    if (lastNumber === `1` && lastTwoNumbers !== `11`) {
+      return `${rankString}st`;
+    } else if (lastNumber === `2` && lastTwoNumbers !== `12`) {
+      return `${rankString}nd`;
+    } else if (lastNumber === `3` && lastTwoNumbers !== `13`) {
+      return `${rankString}rd`;
+    } else {
+      return `${rankString}th`;
+    }
+  };
+
   return (
     <div id="leaderboard-container">
       <h3 id="leaderboard-header">The Most Fabulously Fast Five</h3>
