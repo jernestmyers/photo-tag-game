@@ -56,18 +56,27 @@ function Leaderboard(props) {
   };
 
   const ordinalRanking = (index) => {
-    const rank = +index + 1;
-    const rankString = rank.toString();
-    const lastNumber = rankString[rankString.length - 1];
-    const lastTwoNumbers = rankString.slice(rankString.length - 2);
-    if (lastNumber === `1` && lastTwoNumbers !== `11`) {
-      return `${rankString}st`;
-    } else if (lastNumber === `2` && lastTwoNumbers !== `12`) {
-      return `${rankString}nd`;
-    } else if (lastNumber === `3` && lastTwoNumbers !== `13`) {
-      return `${rankString}rd`;
+    const rank = index + 1;
+    // const rankString = rank.toString();
+    // const lastNumber = rankString[rankString.length - 1];
+    // const lastTwoNumbers = rankString.slice(rankString.length - 2);
+    // if (lastNumber === `1` && lastTwoNumbers !== `11`) {
+    //   return `${rankString}st`;
+    // } else if (lastNumber === `2` && lastTwoNumbers !== `12`) {
+    //   return `${rankString}nd`;
+    // } else if (lastNumber === `3` && lastTwoNumbers !== `13`) {
+    //   return `${rankString}rd`;
+    // } else {
+    //   return `${rankString}th`;
+    // }
+    if (rank % 10 === 1 && rank !== 11) {
+      return `st`;
+    } else if (rank % 10 === 2 && rank !== 12) {
+      return `nd`;
+    } else if (rank % 10 === 3 && rank !== 13) {
+      return `rd`;
     } else {
-      return `${rankString}th`;
+      return `th`;
     }
   };
 
@@ -92,7 +101,10 @@ function Leaderboard(props) {
                       className="user-display-leaderboard"
                       key={userObject.id}
                     >
-                      <td>{index + 1}.</td>
+                      <td>
+                        {index + 1}
+                        {ordinalRanking(index)}
+                      </td>
                       <td id="submit-time-container">
                         <input
                           className="leaderboard-input"
@@ -110,7 +122,10 @@ function Leaderboard(props) {
                 } else {
                   return (
                     <tr key={leader.id}>
-                      <td>{index + 1}.</td>
+                      <td>
+                        {index + 1}
+                        {ordinalRanking(index)}
+                      </td>
                       <td>{leader.data.name}</td>
                       <td>{leader.data.time}</td>
                     </tr>
@@ -132,7 +147,10 @@ function Leaderboard(props) {
               {leaderboardPreview.slice(0, 5).map((leader, index) => {
                 return (
                   <tr key={leader.id}>
-                    <td>{index + 1}.</td>
+                    <td>
+                      {index + 1}
+                      {ordinalRanking(index)}
+                    </td>
                     <td>{leader.data.name}</td>
                     <td>{leader.data.time}</td>
                   </tr>
@@ -142,7 +160,10 @@ function Leaderboard(props) {
                 <td colSpan="3">. . . . . . </td>
               </tr>
               <tr className="user-display-leaderboard" key={userObject.id}>
-                <td>{leaderboardPreview.indexOf(userObject) + 1}.</td>
+                <td>
+                  {leaderboardPreview.indexOf(userObject) + 1}
+                  {ordinalRanking(leaderboardPreview.indexOf(userObject))}
+                </td>
                 <td id="submit-time-container">
                   <input
                     className="leaderboard-input"
