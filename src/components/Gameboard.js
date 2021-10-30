@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 import TargetSelector from "./TargetSelector";
 import Leaderboard from "./Leaderboard";
-import { getDoc, doc, setDoc } from "firebase/firestore";
+import { getDoc, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { differenceInMilliseconds } from "date-fns";
 import uniqid from "uniqid";
 
@@ -22,6 +22,7 @@ function Gameboard(props) {
   const [timeOfStart, setTimeOfStart] = useState();
   const [timeOfEnd, setTimeOfEnd] = useState();
   const [duration, setDuration] = useState(0);
+  const [gameID, setGameID] = useState();
 
   useEffect(() => {
     console.log(`Gameboard mounted`);
@@ -42,6 +43,7 @@ function Gameboard(props) {
     if (selectorTargets.length === 0) {
       setIsGameOver(true);
       setTimeOfEnd(new Date());
+      deleteAbsoluteData();
     }
   }, [selectorTargets]);
 
@@ -56,27 +58,11 @@ function Gameboard(props) {
     const imgCollage = document.querySelector(`#img-collage`);
 
     // BEGIN - restructured data with a uniqid to identify each user's unique absoluteLocationData
-    // const id = uniqid();
-    // const absoluteData = await props.imgLocations.map((target) => {
-    //   return {
-    //     park: target[0],
-    //     minX: target[1].offsetLeft * imgCollage.width + imgCollage.offsetLeft,
-    //     minY: target[1].offsetTop * imgCollage.height + imgCollage.offsetTop,
-    //     maxX:
-    //       target[1].offsetLeft * imgCollage.width +
-    //       imgCollage.offsetLeft +
-    //       target[1].width * imgCollage.width,
-    //     maxY:
-    //       target[1].offsetTop * imgCollage.height +
-    //       imgCollage.offsetTop +
-    //       target[1].height * imgCollage.height,
-    //   };
-    // });
-    // console.log(absoluteData);
-    // await setDoc(doc(props.db, "absolute-img-locations", id), { absoluteData });
-
-    await props.imgLocations.forEach((target) => {
-      setDoc(doc(props.db, "absolute-img-locations", target[0]), {
+    const id = uniqid();
+    setGameID(id);
+    const absoluteData = await props.imgLocations.map((target) => {
+      return {
+        park: target[0],
         minX: target[1].offsetLeft * imgCollage.width + imgCollage.offsetLeft,
         minY: target[1].offsetTop * imgCollage.height + imgCollage.offsetTop,
         maxX:
@@ -87,12 +73,29 @@ function Gameboard(props) {
           target[1].offsetTop * imgCollage.height +
           imgCollage.offsetTop +
           target[1].height * imgCollage.height,
-      });
+      };
     });
+    // console.log(absoluteData);
+    await setDoc(doc(props.db, "absolute-img-locations", id), { absoluteData });
+
+    // await props.imgLocations.forEach((target) => {
+    //   setDoc(doc(props.db, "absolute-img-locations", target[0]), {
+    //     minX: target[1].offsetLeft * imgCollage.width + imgCollage.offsetLeft,
+    //     minY: target[1].offsetTop * imgCollage.height + imgCollage.offsetTop,
+    //     maxX:
+    //       target[1].offsetLeft * imgCollage.width +
+    //       imgCollage.offsetLeft +
+    //       target[1].width * imgCollage.width,
+    //     maxY:
+    //       target[1].offsetTop * imgCollage.height +
+    //       imgCollage.offsetTop +
+    //       target[1].height * imgCollage.height,
+    //   });
+    // });
   };
 
   const handleClick = (e) => {
-    // console.log({ x: e.pageX, y: e.pageY });
+    console.log({ x: e.pageX, y: e.pageY });
     if (e.target.className !== `choose-park-btn`) {
       setClickLocation({ x: e.pageX, y: e.pageY });
     }
@@ -190,18 +193,23 @@ function Gameboard(props) {
     const getFontSize = window
       .getComputedStyle(body)
       .getPropertyValue(`font-size`);
-    const targetRef = doc(
-      props.db,
-      "absolute-img-locations",
-      `${targetClicked}`
-    );
+
+    // BEGIN REFACTOR
+    const targetRef = doc(props.db, "absolute-img-locations", `${gameID}`);
     const getAbsoluteData = await getDoc(targetRef);
-    const absoluteData = getAbsoluteData.data();
+    const absoluteTargetData = getAbsoluteData
+      .data()
+      .absoluteData.filter((object) => {
+        if (object.park === targetClicked) {
+          return object;
+        }
+      });
+    // console.log(absoluteTargetData);
     if (
-      clickLocation.x >= absoluteData.minX &&
-      clickLocation.x <= absoluteData.maxX &&
-      clickLocation.y >= absoluteData.minY &&
-      clickLocation.y <= absoluteData.maxY
+      clickLocation.x >= absoluteTargetData[0].minX &&
+      clickLocation.x <= absoluteTargetData[0].maxX &&
+      clickLocation.y >= absoluteTargetData[0].minY &&
+      clickLocation.y <= absoluteTargetData[0].maxY
     ) {
       setSelectorTargets(
         selectorTargets.filter((target) => {
@@ -210,6 +218,27 @@ function Gameboard(props) {
           }
         })
       );
+
+      // const targetRef = doc(
+      //   props.db,
+      //   "absolute-img-locations",
+      //   `${targetClicked}`
+      // );
+      // const getAbsoluteData = await getDoc(targetRef);
+      // const absoluteData = getAbsoluteData.data();
+      // if (
+      //   clickLocation.x >= absoluteData.minX &&
+      //   clickLocation.x <= absoluteData.maxX &&
+      //   clickLocation.y >= absoluteData.minY &&
+      //   clickLocation.y <= absoluteData.maxY
+      // ) {
+      //   setSelectorTargets(
+      //     selectorTargets.filter((target) => {
+      //       if (target.value !== targetClicked) {
+      //         return target;
+      //       }
+      //     })
+      //   );
 
       // BEGIN - turns on class to set opacity of emblem to 12.5% and displays a checkmark at the clickLocation
       document.querySelector(`#${targetClicked}`).classList.add(`target-found`);
@@ -259,6 +288,10 @@ function Gameboard(props) {
     const imgCollage = document.querySelector(`#img-collage`);
     imgCollage.style.filter = `blur(0.1875rem)`;
   }
+
+  const deleteAbsoluteData = async () => {
+    await deleteDoc(doc(props.db, "absolute-img-locations", gameID));
+  };
 
   return (
     <div className="image-container">
