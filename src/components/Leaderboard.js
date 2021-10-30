@@ -6,6 +6,7 @@ import {
   setDoc,
   collection,
 } from "firebase/firestore";
+import uniqid from "uniqid";
 
 function Leaderboard(props) {
   const [leaderboard, setLeaderboard] = useState();
@@ -18,8 +19,8 @@ function Leaderboard(props) {
 
   let leaderboardPreview = [];
   const userObject = {
-    id: `test`,
-    data: { name: `test`, time: props.duration / 1000 },
+    id: null,
+    data: { name: ``, time: props.duration / 1000 },
   };
   if (leaderboard && props.isGameOver) {
     leaderboardPreview = leaderboard
@@ -39,6 +40,20 @@ function Leaderboard(props) {
   };
 
   console.log(leaderboardPreview.indexOf(userObject));
+
+  const handleAddTime = async () => {
+    console.log(`add time`);
+    const db = getFirestore();
+    const targetColumn = document.querySelector(`#submit-time-container`);
+    const nameInput = document.querySelector(`.leaderboard-input`);
+    if (nameInput.value) {
+      targetColumn.innerHtml = ``;
+      targetColumn.textContent = nameInput.value;
+      userObject.id = uniqid();
+      userObject.data.name = nameInput.value;
+      await setDoc(doc(db, "leaderboard", userObject.id), userObject.data);
+    }
+  };
 
   return (
     <div id="leaderboard-container">
@@ -62,13 +77,16 @@ function Leaderboard(props) {
                       key={userObject.id}
                     >
                       <td>{index + 1}.</td>
-                      <td id="input-container">
+                      <td id="submit-time-container">
                         <input
                           className="leaderboard-input"
                           type="text"
                           placeholder="enter your name"
+                          maxlength="30"
                         ></input>
-                        <button>add</button>
+                        <button onClick={handleAddTime} id="submit-time-btn">
+                          add
+                        </button>
                       </td>
                       <td>{userObject.data.time}</td>
                     </tr>
@@ -109,13 +127,16 @@ function Leaderboard(props) {
               </tr>
               <tr className="user-display-leaderboard" key={userObject.id}>
                 <td>{leaderboardPreview.indexOf(userObject) + 1}.</td>
-                <td id="input-container">
+                <td id="submit-time-container">
                   <input
-                    type="text"
                     className="leaderboard-input"
+                    type="text"
                     placeholder="enter your name"
+                    maxlength="30"
                   ></input>
-                  <button>add</button>
+                  <button onClick={handleAddTime} id="submit-time-btn">
+                    add
+                  </button>
                 </td>
                 <td>{userObject.data.time}</td>
               </tr>

@@ -271,7 +271,7 @@ function Gameboard(props) {
           seconds!
         </p>
         <Leaderboard isGameOver={isGameOver} duration={duration}></Leaderboard>
-        <button>Play Again?</button>
+        <button className="new-game-btn">Play Again?</button>
       </div>
     </div>
   );

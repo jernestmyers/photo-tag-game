@@ -346,6 +346,7 @@ tr:last-child td {
 }
 
 .modal-header {
+  padding: 0;
   font-size: 1.5rem;
   font-weight: bolder;
 }
@@ -368,16 +369,44 @@ tr:last-child td {
   font-weight: bold;
 }
 
-/* #input-container {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-} */
-
 .leaderboard-input {
   width: 10rem;
   height: 1.5rem;
   border: none;
   /* background-color: rgba(94, 91, 82, 0.25); */
   border-radius: 0.25rem;
+  margin-right: 0.5rem;
+}
+
+.leaderboard-input:focus {
+  outline: none;
+  border: 1px solid #5e5b52;
+}
+
+.new-game-btn,
+#submit-time-btn {
+  height: 1.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-weight: bold;
+  /* background-color: #5e5b52; */
+  background-color: #79766f;
+
+  color: #e8e1c7;
+}
+
+#submit-time-btn {
+  margin-left: 0.5rem;
+}
+
+.new-game-btn {
+  height: 2rem;
+  margin-top: 0.5rem;
+}
+
+.new-game-btn:hover,
+#submit-time-btn:hover {
+  /* background-color: #79766f; */
+  background-color: #5e5b52;
+  /* color: #5e5b52; */
 }
