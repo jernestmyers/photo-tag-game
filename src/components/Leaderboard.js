@@ -28,6 +28,7 @@ function Leaderboard(props) {
   }
 
   const fetchLeaderboard = async () => {
+    console.log(`firestore: fetch leaderboard`);
     const db = getFirestore();
     const dataHelper = [];
     const targetRef = collection(db, "leaderboard");
@@ -39,7 +40,7 @@ function Leaderboard(props) {
   };
 
   const handleAddTime = async () => {
-    console.log(`add time`);
+    console.log(`firestore: set time`);
     const db = getFirestore();
     const targetColumn = document.querySelector(`#submit-time-container`);
     const nameInput = document.querySelector(`.leaderboard-input`);
@@ -95,7 +96,7 @@ function Leaderboard(props) {
                           className="leaderboard-input"
                           type="text"
                           placeholder="enter your name"
-                          maxlength="30"
+                          maxLength="30"
                         ></input>
                         <button onClick={handleAddTime} id="submit-time-btn">
                           add
@@ -154,7 +155,7 @@ function Leaderboard(props) {
                     className="leaderboard-input"
                     type="text"
                     placeholder="enter your name"
-                    maxlength="30"
+                    maxLength="30"
                   ></input>
                   <button onClick={handleAddTime} id="submit-time-btn">
                     add

@@ -32,7 +32,7 @@ function Gameboard(props) {
 
   useEffect(() => {
     setAbsoluteTargetLocations();
-  }, [relativeLocationData]);
+  }, [setRelativeLocationData]);
 
   useEffect(() => {
     handlePointerDisplay();
@@ -52,6 +52,7 @@ function Gameboard(props) {
   }, [timeOfEnd]);
 
   const setAbsoluteTargetLocations = async () => {
+    console.log(`firestore: set absolute locations`);
     const imgCollage = document.querySelector(`#img-collage`);
     await props.imgLocations.forEach((target) => {
       setDoc(doc(db, "absolute-img-locations", target[0]), {

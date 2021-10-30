@@ -28,6 +28,7 @@ function App() {
   const [imgLocations, setImgLocations] = useState([]);
 
   async function getRelativeImgLocations(database) {
+    console.log(`firestore: fetch relative positions`);
     const dataHelper = [];
     const querySnapshot = await getDocs(
       collection(database, "relative-img-locations")
