@@ -10,7 +10,6 @@ import uniqid from "uniqid";
 
 function Leaderboard(props) {
   const [leaderboard, setLeaderboard] = useState();
-  //   const [leaderboardPreview, setLeaderboardPreview] = useState();
 
   useEffect(() => {
     console.log(`Leaderboard mounted`);
@@ -39,8 +38,6 @@ function Leaderboard(props) {
     setLeaderboard(dataHelper.sort((a, b) => a.data.time - b.data.time));
   };
 
-  console.log(leaderboardPreview.indexOf(userObject));
-
   const handleAddTime = async () => {
     console.log(`add time`);
     const db = getFirestore();
@@ -57,18 +54,6 @@ function Leaderboard(props) {
 
   const ordinalRanking = (index) => {
     const rank = index + 1;
-    // const rankString = rank.toString();
-    // const lastNumber = rankString[rankString.length - 1];
-    // const lastTwoNumbers = rankString.slice(rankString.length - 2);
-    // if (lastNumber === `1` && lastTwoNumbers !== `11`) {
-    //   return `${rankString}st`;
-    // } else if (lastNumber === `2` && lastTwoNumbers !== `12`) {
-    //   return `${rankString}nd`;
-    // } else if (lastNumber === `3` && lastTwoNumbers !== `13`) {
-    //   return `${rankString}rd`;
-    // } else {
-    //   return `${rankString}th`;
-    // }
     if (rank % 10 === 1 && rank !== 11) {
       return `st`;
     } else if (rank % 10 === 2 && rank !== 12) {
@@ -181,91 +166,8 @@ function Leaderboard(props) {
           </table>
         )
       ) : null}
-
-      {/* <table>
-        <thead>
-          <tr className="leaderboardHeader">
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Time (s)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.isGameOver ? (
-            leaderboardPreview.indexOf(userObject) <= 4 ? (
-              leaderboardPreview.slice(0, 5).map((leader, index) => {
-                if (leader === userObject) {
-                  return (
-                    <tr key={leader.id}>
-                      <td>{index + 1}.</td>
-                      <td>
-                        <input
-                          type="text"
-                          placeholder="enter your name"
-                        ></input>
-                      </td>
-                      <td>{leader.data.time}</td>
-                    </tr>
-                  );
-                } else {
-                  return (
-                    <tr key={leader.id}>
-                      <td>{index + 1}.</td>
-                      <td>{leader.data.name}</td>
-                      <td>{leader.data.time}</td>
-                    </tr>
-                  );
-                }
-              })
-            ) : (
-              <tr>
-                {leaderboardPreview.slice(0, 5).map((leader, index) => {
-                  return (
-                    <tr key={leader.id}>
-                      <td>{index + 1}.</td>
-                      <td>{leader.data.name}</td>
-                      <td>{leader.data.time}</td>
-                    </tr>
-                  );
-                })}{" "}
-                <tr>
-                  <td>. . .</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr key={userObject.id}>
-                  <td>{leaderboardPreview.indexOf(userObject) + 1}.</td>
-                  <td>
-                    <input type="text" placeholder="enter your name"></input>{" "}
-                  </td>
-                  <td>{userObject.data.time}</td>
-                </tr>
-              </tr>
-            )
-          ) : null}
-        </tbody>
-      </table> */}
     </div>
   );
 }
 
 export default Leaderboard;
-
-// fetch leaderboard
-// compare user's time to leaderboard
-// ask user to submit name or cancel
-// if user submits name, push their time to firestore
-
-/* <table>
-                    <thead>
-                        <tr class="bookDisplayHeader">
-                            <th class="bookInfoDisplay">TITLE</th>
-                            <th class="bookInfoDisplay">AUTHOR</th>
-                            <th class="bookInfoDisplay">PAGE LENGTH</th>
-                            <th class="bookInfoDisplay">READ STATUS</th>
-                            <th class="bookInfoDisplay">REMOVE BOOK</th>
-                        </tr>
-                    <tbody>
-                        
-                    </tbody>
-                </table> */
