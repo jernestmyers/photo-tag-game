@@ -6,8 +6,11 @@ function Leaderboard(props) {
   const [leaderboard, setLeaderboard] = useState();
 
   useEffect(() => {
-    fetchLeaderboard();
-  }, []);
+    if (!props.isInitialLoad) {
+      console.log(`fetch leaderboard`);
+      fetchLeaderboard();
+    }
+  }, [props.timeOfStart]);
 
   let leaderboardPreview = [];
   const userObject = {

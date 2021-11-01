@@ -13,6 +13,8 @@ function GameOverModal(props) {
       <Leaderboard
         db={props.db}
         isGameOver={props.isGameOver}
+        isInitialLoad={props.isInitialLoad}
+        timeOfStart={props.timeOfStart}
         duration={props.duration}
       ></Leaderboard>
       <button

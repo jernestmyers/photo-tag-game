@@ -60,16 +60,13 @@ function Gameboard(props) {
   };
 
   useEffect(() => {
-    console.log(`Gameboard mounted`);
     HandleLocationData();
     const imgCollage = document.querySelector(`#img-collage`);
     imgCollage.style.filter = `blur(0.50rem)`;
-    // window.addEventListener(`click`, handleClick);
   }, []);
 
   useEffect(() => {
     if (timeOfStart) {
-      console.log(`addEventListener`);
       window.addEventListener(`click`, handleClick);
     }
   }, [isInitialLoad]);
@@ -126,7 +123,6 @@ function Gameboard(props) {
 
   const handlePointerDisplay = (e) => {
     if (!isGameOver) {
-      console.log(`handlePointerDisplay`);
       if (!isTargetIncorrect) {
         document.querySelector(
           `.incorrect-selection-container`
@@ -365,6 +361,8 @@ function Gameboard(props) {
         db={db}
         isGameOver={isGameOver}
         duration={duration}
+        isInitialLoad={isInitialLoad}
+        timeOfStart={timeOfStart}
         resetGame={resetGame}
       ></GameOverModal>
     </div>
