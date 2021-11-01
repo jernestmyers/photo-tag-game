@@ -477,3 +477,24 @@ footer {
 #contact-links {
   display: flex;
 }
+
+@media screen and (min-width: 500px) and (max-width: 600px) {
+  html,
+  body {
+    --collage-width: 500px;
+  }
+}
+
+@media screen and (min-width: 400px) and (max-width: 499px) {
+  html,
+  body {
+    --collage-width: 400px;
+  }
+}
+
+@media screen and (max-width: 399px) {
+  html,
+  body {
+    --collage-width: 350px;
+  }
+}
