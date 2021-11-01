@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/photo-tag-game/static/css/main.9fef4003.chunk.css",
-    "main.js": "/photo-tag-game/static/js/main.b718cb38.chunk.js",
-    "main.js.map": "/photo-tag-game/static/js/main.b718cb38.chunk.js.map",
+    "main.js": "/photo-tag-game/static/js/main.eaf10f7d.chunk.js",
+    "main.js.map": "/photo-tag-game/static/js/main.eaf10f7d.chunk.js.map",
     "runtime-main.js": "/photo-tag-game/static/js/runtime-main.7a038804.js",
     "runtime-main.js.map": "/photo-tag-game/static/js/runtime-main.7a038804.js.map",
     "static/js/2.fdb7d3d5.chunk.js": "/photo-tag-game/static/js/2.fdb7d3d5.chunk.js",
@@ -24,6 +24,6 @@
     "static/js/runtime-main.7a038804.js",
     "static/js/2.fdb7d3d5.chunk.js",
     "static/css/main.9fef4003.chunk.css",
-    "static/js/main.b718cb38.chunk.js"
+    "static/js/main.eaf10f7d.chunk.js"
   ]
 }
