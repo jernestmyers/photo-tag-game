@@ -4,17 +4,8 @@ import TargetSelector from "./TargetSelector";
 // import Leaderboard from "./Leaderboad";
 import GameOverModal from "./GameOverModal";
 import { initializeApp } from "firebase/app";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  getDoc,
-  doc,
-  setDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { differenceInMilliseconds } from "date-fns";
-import uniqid from "uniqid";
 
 // Firebase configuration object
 const firebaseConfig = {
@@ -47,6 +38,26 @@ function Gameboard(props) {
   const [timeOfStart, setTimeOfStart] = useState();
   const [timeOfEnd, setTimeOfEnd] = useState();
   const [duration, setDuration] = useState(0);
+
+  const resetGame = () => {
+    setSelectorTargets([
+      { name: `Big Bend`, value: `bigBend` },
+      { name: `Glacier`, value: `glacier` },
+      { name: `Guadalupe Mountains`, value: `guadalupe` },
+      { name: `Joshua Tree`, value: `joshuaTree` },
+      { name: `Rocky Mountain`, value: `rockies` },
+      { name: `Saguaro`, value: `saguaro` },
+    ]);
+    setTimeOfStart(new Date());
+    setIsGameOver(false);
+    document.querySelector(`#gameover-modal`).style.display = `none`;
+    document.querySelector(`#img-collage`).style.filter = ``;
+    document.querySelectorAll(`.emblem-key`).forEach((emblem) => {
+      emblem.classList.remove(`target-found`);
+    });
+    // document.querySelector(`.pointer`).style.display = `none`;
+    setClickLocation({});
+  };
 
   useEffect(() => {
     console.log(`Gameboard mounted`);
@@ -91,7 +102,12 @@ function Gameboard(props) {
   };
 
   const handleClick = (e) => {
-    if (e.target.className !== `choose-park-btn`) {
+    if (
+      e.target.className !== `choose-park-btn` &&
+      e.target.className !== `new-game-btn` &&
+      e.target.className !== `leaderboard-input` &&
+      e.target.id !== `submit-time-btn`
+    ) {
       setClickLocation({ x: e.pageX, y: e.pageY });
     }
     setClickedClassName(e.target.className);
@@ -333,6 +349,7 @@ function Gameboard(props) {
         db={db}
         isGameOver={isGameOver}
         duration={duration}
+        resetGame={resetGame}
       ></GameOverModal>
     </div>
   );

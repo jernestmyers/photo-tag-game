@@ -14,7 +14,9 @@ function GameOverModal(props) {
         isGameOver={props.isGameOver}
         duration={props.duration}
       ></Leaderboard>
-      <button className="new-game-btn">Play Again?</button>
+      <button onClick={props.resetGame} className="new-game-btn">
+        Play Again?
+      </button>
     </div>
   );
 }
