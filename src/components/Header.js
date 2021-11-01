@@ -24,7 +24,6 @@ function Header() {
           </p>
         </div>
       </div>
-      {/* <h2>Find these National Park emblems on the poster below.</h2> */}
       <div id="logo-container">
         <img
           className="emblem-key"

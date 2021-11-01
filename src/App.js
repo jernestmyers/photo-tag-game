@@ -1,28 +1,37 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Gameboard from "./components/Gameboard";
 import BeginGameModal from "./components/BeginGameModal";
 
 function App() {
-  const [isInitialLoad, setIsInitialLoad] = useState(false);
-  const [isGameStarted, setIsGameStarted] = useState(false);
+  console.log(`app`);
+  // const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [timeOfStart, setTimeOfStart] = useState();
+  // console.log(isInitialLoad);
 
-  useEffect(() => {
-    console.log(`App component mounted`);
-    setIsInitialLoad(true);
-  }, []);
+  // useEffect(() => {
+  //   console.log(`App component mounted`);
+  //   setIsInitialLoad(true);
+  // }, []);
 
   return (
-    <div>
+    <div id="App-container">
       <Header></Header>
-      <Gameboard setIsGameStarted={setIsGameStarted}></Gameboard>
-      {isInitialLoad ? (
-        <BeginGameModal
-          setIsInitialLoad={setIsInitialLoad}
-          setIsGameStarted={setIsGameStarted}
-        ></BeginGameModal>
-      ) : null}
+      <Gameboard
+        timeOfStart={timeOfStart}
+        // setIsInitialLoad={setIsInitialLoad}
+        // isInitialLoad={isInitialLoad}
+        setTimeOfStart={setTimeOfStart}
+      ></Gameboard>
+      {/* {isInitialLoad ? ( */}
+      <BeginGameModal
+        setTimeOfStart={setTimeOfStart}
+        // setIsInitialLoad={setIsInitialLoad}
+      ></BeginGameModal>
+      {/* ) : null} */}
+      <Footer></Footer>
     </div>
   );
 }

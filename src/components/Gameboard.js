@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 import TargetSelector from "./TargetSelector";
-// import Leaderboard from "./Leaderboad";
 import GameOverModal from "./GameOverModal";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
@@ -35,7 +34,6 @@ function Gameboard(props) {
   ]);
   const [isTargetIncorrect, setIsTargetIncorrect] = useState();
   const [isGameOver, setIsGameOver] = useState(false);
-  const [timeOfStart, setTimeOfStart] = useState();
   const [timeOfEnd, setTimeOfEnd] = useState();
   const [duration, setDuration] = useState(0);
 
@@ -48,7 +46,7 @@ function Gameboard(props) {
       { name: `Rocky Mountain`, value: `rockies` },
       { name: `Saguaro`, value: `saguaro` },
     ]);
-    setTimeOfStart(new Date());
+    props.setTimeOfStart(new Date());
     setIsGameOver(false);
     document.querySelector(`#gameover-modal`).style.display = `none`;
     document.querySelector(`#img-collage`).style.filter = ``;
@@ -60,8 +58,9 @@ function Gameboard(props) {
 
   useEffect(() => {
     console.log(`Gameboard mounted`);
+    const imgCollage = document.querySelector(`#img-collage`);
+    imgCollage.style.filter = `blur(0.50rem)`;
     window.addEventListener(`click`, handleClick);
-    setTimeOfStart(new Date());
     HandleLocationData();
   }, []);
 
@@ -79,7 +78,7 @@ function Gameboard(props) {
 
   useEffect(() => {
     if (isGameOver) {
-      setDuration(differenceInMilliseconds(timeOfEnd, timeOfStart));
+      setDuration(differenceInMilliseconds(timeOfEnd, props.timeOfStart));
     }
   }, [timeOfEnd]);
 
