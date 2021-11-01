@@ -1,11 +1,34 @@
 import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 import TargetSelector from "./TargetSelector";
-// import Leaderboard from "./Leaderboard";
+// import Leaderboard from "./Leaderboad";
 import GameOverModal from "./GameOverModal";
-import { getDoc, doc, setDoc, deleteDoc } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { differenceInMilliseconds } from "date-fns";
 import uniqid from "uniqid";
+
+// Firebase configuration object
+const firebaseConfig = {
+  apiKey: "AIzaSyDb5ZCdEaEqHORANq6NbOR-6Q-emlnohqA",
+  authDomain: "photo-tag-game.firebaseapp.com",
+  projectId: "photo-tag-game",
+  storageBucket: "photo-tag-game.appspot.com",
+  messagingSenderId: "1040129590056",
+  appId: "1:1040129590056:web:97e1a01604a003328cc61d",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore();
 
 function Gameboard(props) {
   const [clickLocation, setClickLocation] = useState({});
@@ -18,7 +41,6 @@ function Gameboard(props) {
     { name: `Rocky Mountain`, value: `rockies` },
     { name: `Saguaro`, value: `saguaro` },
   ]);
-  const [relativeLocationData, setRelativeLocationData] = useState();
   const [isGameOver, setIsGameOver] = useState(false);
   const [timeOfStart, setTimeOfStart] = useState();
   const [timeOfEnd, setTimeOfEnd] = useState();
@@ -28,13 +50,9 @@ function Gameboard(props) {
   useEffect(() => {
     console.log(`Gameboard mounted`);
     window.addEventListener(`click`, handleClick);
-    setRelativeLocationData(props.imgLocations);
     setTimeOfStart(new Date());
+    HandleLocationData();
   }, []);
-
-  useEffect(() => {
-    setAbsoluteTargetLocations();
-  }, [setRelativeLocationData]);
 
   useEffect(() => {
     handlePointerDisplay();
@@ -54,45 +72,45 @@ function Gameboard(props) {
     }
   }, [timeOfEnd]);
 
-  const setAbsoluteTargetLocations = async () => {
-    console.log(`firestore: set absolute locations`);
-    const imgCollage = document.querySelector(`#img-collage`);
+  const storeFetchAsArray = (relativeImgData) => {
+    const dataHelper = [];
+    relativeImgData.forEach((doc) => {
+      dataHelper.push([doc.id, doc.data()]);
+    });
+    return dataHelper;
+  };
 
-    // BEGIN - restructured data with a uniqid to identify each user's unique absoluteLocationData
+  const HandleLocationData = async () => {
     const id = uniqid();
     setGameID(id);
-    const absoluteData = await props.imgLocations.map((target) => {
-      return {
-        park: target[0],
-        minX: target[1].offsetLeft * imgCollage.width + imgCollage.offsetLeft,
-        minY: target[1].offsetTop * imgCollage.height + imgCollage.offsetTop,
-        maxX:
-          target[1].offsetLeft * imgCollage.width +
-          imgCollage.offsetLeft +
-          target[1].width * imgCollage.width,
-        maxY:
-          target[1].offsetTop * imgCollage.height +
-          imgCollage.offsetTop +
-          target[1].height * imgCollage.height,
-      };
+    const imgCollage = document.querySelector(`#img-collage`);
+    console.log(imgCollage);
+    const getRelativeImgLocations = await getDocs(
+      collection(db, "relative-img-locations")
+    );
+    const relativeImgLocationArray = await storeFetchAsArray(
+      getRelativeImgLocations
+    );
+    const absoluteLocationData = await relativeImgLocationArray.map(
+      (target) => {
+        return {
+          park: target[0],
+          minX: target[1].offsetLeft * imgCollage.width + imgCollage.offsetLeft,
+          minY: target[1].offsetTop * imgCollage.height + imgCollage.offsetTop,
+          maxX:
+            target[1].offsetLeft * imgCollage.width +
+            imgCollage.offsetLeft +
+            target[1].width * imgCollage.width,
+          maxY:
+            target[1].offsetTop * imgCollage.height +
+            imgCollage.offsetTop +
+            target[1].height * imgCollage.height,
+        };
+      }
+    );
+    await setDoc(doc(db, "absolute-img-locations", id), {
+      absoluteLocationData,
     });
-    console.log(absoluteData);
-    await setDoc(doc(props.db, "absolute-img-locations", id), { absoluteData });
-
-    // await props.imgLocations.forEach((target) => {
-    //   setDoc(doc(props.db, "absolute-img-locations", target[0]), {
-    //     minX: target[1].offsetLeft * imgCollage.width + imgCollage.offsetLeft,
-    //     minY: target[1].offsetTop * imgCollage.height + imgCollage.offsetTop,
-    //     maxX:
-    //       target[1].offsetLeft * imgCollage.width +
-    //       imgCollage.offsetLeft +
-    //       target[1].width * imgCollage.width,
-    //     maxY:
-    //       target[1].offsetTop * imgCollage.height +
-    //       imgCollage.offsetTop +
-    //       target[1].height * imgCollage.height,
-    //   });
-    // });
   };
 
   const handleClick = (e) => {
@@ -195,17 +213,15 @@ function Gameboard(props) {
       .getComputedStyle(body)
       .getPropertyValue(`font-size`);
 
-    // BEGIN REFACTOR
-    const targetRef = doc(props.db, "absolute-img-locations", `${gameID}`);
+    const targetRef = doc(db, "absolute-img-locations", `${gameID}`);
     const getAbsoluteData = await getDoc(targetRef);
     const absoluteTargetData = getAbsoluteData
       .data()
-      .absoluteData.filter((object) => {
+      .absoluteLocationData.filter((object) => {
         if (object.park === targetClicked) {
           return object;
         }
       });
-    // console.log(absoluteTargetData);
     if (
       clickLocation.x >= absoluteTargetData[0].minX &&
       clickLocation.x <= absoluteTargetData[0].maxX &&
@@ -219,27 +235,6 @@ function Gameboard(props) {
           }
         })
       );
-
-      // const targetRef = doc(
-      //   props.db,
-      //   "absolute-img-locations",
-      //   `${targetClicked}`
-      // );
-      // const getAbsoluteData = await getDoc(targetRef);
-      // const absoluteData = getAbsoluteData.data();
-      // if (
-      //   clickLocation.x >= absoluteData.minX &&
-      //   clickLocation.x <= absoluteData.maxX &&
-      //   clickLocation.y >= absoluteData.minY &&
-      //   clickLocation.y <= absoluteData.maxY
-      // ) {
-      //   setSelectorTargets(
-      //     selectorTargets.filter((target) => {
-      //       if (target.value !== targetClicked) {
-      //         return target;
-      //       }
-      //     })
-      //   );
 
       // BEGIN - turns on class to set opacity of emblem to 12.5% and displays a checkmark at the clickLocation
       document.querySelector(`#${targetClicked}`).classList.add(`target-found`);
@@ -291,7 +286,7 @@ function Gameboard(props) {
   }
 
   const deleteAbsoluteData = async () => {
-    await deleteDoc(doc(props.db, "absolute-img-locations", gameID));
+    await deleteDoc(doc(db, "absolute-img-locations", gameID));
   };
 
   return (
@@ -324,21 +319,8 @@ function Gameboard(props) {
         src={photoCollage2}
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img>
-      {/* <div id="gameover-modal">
-        <h2 className="modal-header">GAME OVER</h2>
-        <p>
-          You finished in <span id="time-finished">{duration / 1000}</span>{" "}
-          seconds!
-        </p>
-        <Leaderboard
-          db={props.db}
-          isGameOver={isGameOver}
-          duration={duration}
-        ></Leaderboard>
-        <button className="new-game-btn">Play Again?</button>
-      </div> */}
       <GameOverModal
-        db={props.db}
+        db={db}
         isGameOver={isGameOver}
         duration={duration}
       ></GameOverModal>
