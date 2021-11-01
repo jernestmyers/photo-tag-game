@@ -31,6 +31,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
 function Gameboard(props) {
+  const [relativeTargetData, setRelativeTargetData] = useState();
   const [clickLocation, setClickLocation] = useState({});
   const [clickedClassName, setClickedClassName] = useState();
   const [selectorTargets, setSelectorTargets] = useState([
@@ -41,11 +42,11 @@ function Gameboard(props) {
     { name: `Rocky Mountain`, value: `rockies` },
     { name: `Saguaro`, value: `saguaro` },
   ]);
+  const [isTargetIncorrect, setIsTargetIncorrect] = useState();
   const [isGameOver, setIsGameOver] = useState(false);
   const [timeOfStart, setTimeOfStart] = useState();
   const [timeOfEnd, setTimeOfEnd] = useState();
   const [duration, setDuration] = useState(0);
-  const [gameID, setGameID] = useState();
 
   useEffect(() => {
     console.log(`Gameboard mounted`);
@@ -62,7 +63,6 @@ function Gameboard(props) {
     if (selectorTargets.length === 0) {
       setIsGameOver(true);
       setTimeOfEnd(new Date());
-      deleteAbsoluteData();
     }
   }, [selectorTargets]);
 
@@ -81,50 +81,30 @@ function Gameboard(props) {
   };
 
   const HandleLocationData = async () => {
-    const id = uniqid();
-    setGameID(id);
-    const imgCollage = document.querySelector(`#img-collage`);
-    console.log(imgCollage);
-    const getRelativeImgLocations = await getDocs(
+    const fetchRelativeTargetData = await getDocs(
       collection(db, "relative-img-locations")
     );
-    const relativeImgLocationArray = await storeFetchAsArray(
-      getRelativeImgLocations
+    const fetchedTargetDataProcessed = await storeFetchAsArray(
+      fetchRelativeTargetData
     );
-    const absoluteLocationData = await relativeImgLocationArray.map(
-      (target) => {
-        return {
-          park: target[0],
-          minX: target[1].offsetLeft * imgCollage.width + imgCollage.offsetLeft,
-          minY: target[1].offsetTop * imgCollage.height + imgCollage.offsetTop,
-          maxX:
-            target[1].offsetLeft * imgCollage.width +
-            imgCollage.offsetLeft +
-            target[1].width * imgCollage.width,
-          maxY:
-            target[1].offsetTop * imgCollage.height +
-            imgCollage.offsetTop +
-            target[1].height * imgCollage.height,
-        };
-      }
-    );
-    await setDoc(doc(db, "absolute-img-locations", id), {
-      absoluteLocationData,
-    });
+    setRelativeTargetData(fetchedTargetDataProcessed);
   };
 
   const handleClick = (e) => {
-    // console.log({ x: e.pageX, y: e.pageY });
     if (e.target.className !== `choose-park-btn`) {
       setClickLocation({ x: e.pageX, y: e.pageY });
     }
     setClickedClassName(e.target.className);
+    setIsTargetIncorrect(null);
   };
 
   const handlePointerDisplay = (e) => {
-    document.querySelector(
-      `.incorrect-selection-container`
-    ).style.display = `none`;
+    console.log(`handlePointerDisplay`);
+    if (!isTargetIncorrect) {
+      document.querySelector(
+        `.incorrect-selection-container`
+      ).style.display = `none`;
+    }
     const pointer = document.querySelector(`.pointer`);
     const imgCollage = document.querySelector(`#img-collage`);
     if (
@@ -143,8 +123,12 @@ function Gameboard(props) {
         pointerDiameterString.length - 2
       );
       pointer.style.display = `block`;
-      pointer.style.left = `${clickLocation.x - pointerDiameterInteger / 2}px`;
-      pointer.style.top = `${clickLocation.y - pointerDiameterInteger / 2}px`;
+      pointer.style.left = `${
+        clickLocation.x - imgCollage.offsetLeft - pointerDiameterInteger / 2
+      }px`;
+      pointer.style.top = `${
+        clickLocation.y - imgCollage.offsetTop - pointerDiameterInteger / 2
+      }px`;
 
       // BEGIN - display properties for the selectors
       const selectorContainer = document.querySelector(
@@ -206,27 +190,38 @@ function Gameboard(props) {
     // END - display properties for the pointer
   };
 
-  const validateSelection = async (e) => {
+  const validateSelection = (e) => {
+    console.log(`validate`);
     const targetClicked = e.target.value;
+    const imgCollage = document.querySelector(`#img-collage`);
     const body = document.querySelector(`body`);
     const getFontSize = window
       .getComputedStyle(body)
       .getPropertyValue(`font-size`);
 
-    const targetRef = doc(db, "absolute-img-locations", `${gameID}`);
-    const getAbsoluteData = await getDoc(targetRef);
-    const absoluteTargetData = getAbsoluteData
-      .data()
-      .absoluteLocationData.filter((object) => {
-        if (object.park === targetClicked) {
-          return object;
-        }
-      });
+    const targetClickedLocationData = relativeTargetData.filter((target) => {
+      if (targetClicked === target[0]) {
+        return target;
+      }
+    });
+
     if (
-      clickLocation.x >= absoluteTargetData[0].minX &&
-      clickLocation.x <= absoluteTargetData[0].maxX &&
-      clickLocation.y >= absoluteTargetData[0].minY &&
-      clickLocation.y <= absoluteTargetData[0].maxY
+      clickLocation.x >=
+        targetClickedLocationData[0][1].offsetLeft * imgCollage.width +
+          imgCollage.offsetLeft &&
+      clickLocation.x <=
+        imgCollage.width *
+          (targetClickedLocationData[0][1].offsetLeft +
+            targetClickedLocationData[0][1].width) +
+          imgCollage.offsetLeft &&
+      clickLocation.y >=
+        targetClickedLocationData[0][1].offsetTop * imgCollage.height +
+          imgCollage.offsetTop &&
+      clickLocation.y <=
+        imgCollage.height *
+          (targetClickedLocationData[0][1].offsetTop +
+            targetClickedLocationData[0][1].height) +
+          imgCollage.offsetTop
     ) {
       setSelectorTargets(
         selectorTargets.filter((target) => {
@@ -238,7 +233,9 @@ function Gameboard(props) {
 
       // BEGIN - turns on class to set opacity of emblem to 12.5% and displays a checkmark at the clickLocation
       document.querySelector(`#${targetClicked}`).classList.add(`target-found`);
-      const imgContainer = document.querySelector(`.image-container`);
+      const pseudoRelativeCheckmarkContainer = document.querySelector(
+        `#show-checkmark-container`
+      );
       const divForCheckmark = document.createElement(`div`);
       divForCheckmark.classList.add(`checkbox`);
       divForCheckmark.innerHTML = `<svg
@@ -255,23 +252,32 @@ function Gameboard(props) {
       </svg>`;
       divForCheckmark.style.display = `block`;
       divForCheckmark.style.left = `${
-        clickLocation.x - +getFontSize.substring(0, getFontSize.length - 2)
+        clickLocation.x -
+        imgCollage.offsetLeft -
+        +getFontSize.substring(0, getFontSize.length - 2)
       }px`;
       divForCheckmark.style.top = `${
-        clickLocation.y - +getFontSize.substring(0, getFontSize.length - 2)
+        clickLocation.y -
+        imgCollage.offsetTop -
+        +getFontSize.substring(0, getFontSize.length - 2)
       }px`;
-      imgContainer.appendChild(divForCheckmark);
+      pseudoRelativeCheckmarkContainer.appendChild(divForCheckmark);
       // END - turns on class to set opacity of emblem to 12.5% and displays a checkmark at the clickLocation
     } else {
+      setIsTargetIncorrect(true);
       const wrongAnswerDiv = document.querySelector(
         `.incorrect-selection-container`
       );
       wrongAnswerDiv.style.display = `flex`;
       wrongAnswerDiv.style.left = `${
-        clickLocation.x - +getFontSize.substring(0, getFontSize.length - 2)
+        clickLocation.x -
+        +getFontSize.substring(0, getFontSize.length - 2) -
+        imgCollage.offsetLeft
       }px`;
       wrongAnswerDiv.style.top = `${
-        clickLocation.y - +getFontSize.substring(0, getFontSize.length - 2)
+        clickLocation.y -
+        imgCollage.offsetTop -
+        +getFontSize.substring(0, getFontSize.length - 2)
       }px`;
     }
   };
@@ -285,34 +291,38 @@ function Gameboard(props) {
     imgCollage.style.filter = `blur(0.1875rem)`;
   }
 
-  const deleteAbsoluteData = async () => {
-    await deleteDoc(doc(db, "absolute-img-locations", gameID));
-  };
-
   return (
     <div className="image-container">
-      <div className="incorrect-selection-container">
-        <svg
-          aria-hidden="true"
-          focusable="false"
-          data-prefix="far"
-          data-icon="times-circle"
-          className="incorrect-icon"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-        >
-          <path
-            id="incorrect-icon-color"
-            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm101.8-262.2L295.6 256l62.2 62.2c4.7 4.7 4.7 12.3 0 17l-22.6 22.6c-4.7 4.7-12.3 4.7-17 0L256 295.6l-62.2 62.2c-4.7 4.7-12.3 4.7-17 0l-22.6-22.6c-4.7-4.7-4.7-12.3 0-17l62.2-62.2-62.2-62.2c-4.7-4.7-4.7-12.3 0-17l22.6-22.6c4.7-4.7 12.3-4.7 17 0l62.2 62.2 62.2-62.2c4.7-4.7 12.3-4.7 17 0l22.6 22.6c4.7 4.7 4.7 12.3 0 17z"
-          ></path>
-        </svg>
+      <div
+        className="pseudo-relative-container"
+        id="show-checkmark-container"
+      ></div>
+      <div className="pseudo-relative-container" id="show-incorrect-container">
+        <div className="incorrect-selection-container">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="far"
+            data-icon="times-circle"
+            className="incorrect-icon"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <path
+              id="incorrect-icon-color"
+              d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm101.8-262.2L295.6 256l62.2 62.2c4.7 4.7 4.7 12.3 0 17l-22.6 22.6c-4.7 4.7-12.3 4.7-17 0L256 295.6l-62.2 62.2c-4.7 4.7-12.3 4.7-17 0l-22.6-22.6c-4.7-4.7-4.7-12.3 0-17l62.2-62.2-62.2-62.2c-4.7-4.7-4.7-12.3 0-17l22.6-22.6c4.7-4.7 12.3-4.7 17 0l62.2 62.2 62.2-62.2c4.7-4.7 12.3-4.7 17 0l22.6 22.6c4.7 4.7 4.7 12.3 0 17z"
+            ></path>
+          </svg>
+        </div>
       </div>
-      <div className="pointer">
-        <TargetSelector
-          validateSelection={validateSelection}
-          selectorTargets={selectorTargets}
-        ></TargetSelector>
+      <div className="pseudo-relative-container">
+        <div className="pointer">
+          <TargetSelector
+            validateSelection={validateSelection}
+            selectorTargets={selectorTargets}
+          ></TargetSelector>
+        </div>
       </div>
       <img
         id="img-collage"

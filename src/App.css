@@ -153,13 +153,21 @@ body {
   justify-content: center;
 }
 
+.pseudo-relative-container {
+  position: relative;
+  height: 0;
+  width: 0;
+}
+
 .pointer {
   display: none;
   position: absolute;
+  /* position: relative; */
   border: 0.125rem dotted #eefc57;
   height: var(--pointer-diameter);
   width: var(--pointer-diameter);
   border-radius: 50%;
+  z-index: 5;
 }
 
 #park-selector-container {
@@ -194,9 +202,11 @@ body {
 .incorrect-selection-container {
   display: none;
   position: absolute;
+  /* position: relative; */
   width: 2rem;
   height: 2rem;
   color: #fc7a57;
+  z-index: 10;
 }
 
 path {
