@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/photo-tag-game/static/css/main.a8504bbb.chunk.css",
+    "main.css": "/photo-tag-game/static/css/main.54719528.chunk.css",
     "main.js": "/photo-tag-game/static/js/main.eaf10f7d.chunk.js",
     "main.js.map": "/photo-tag-game/static/js/main.eaf10f7d.chunk.js.map",
     "runtime-main.js": "/photo-tag-game/static/js/runtime-main.7a038804.js",
@@ -10,7 +10,7 @@
     "static/js/3.19ef5363.chunk.js": "/photo-tag-game/static/js/3.19ef5363.chunk.js",
     "static/js/3.19ef5363.chunk.js.map": "/photo-tag-game/static/js/3.19ef5363.chunk.js.map",
     "index.html": "/photo-tag-game/index.html",
-    "static/css/main.a8504bbb.chunk.css.map": "/photo-tag-game/static/css/main.a8504bbb.chunk.css.map",
+    "static/css/main.54719528.chunk.css.map": "/photo-tag-game/static/css/main.54719528.chunk.css.map",
     "static/js/2.fdb7d3d5.chunk.js.LICENSE.txt": "/photo-tag-game/static/js/2.fdb7d3d5.chunk.js.LICENSE.txt",
     "static/media/big-bend.7e11e2cc.jpg": "/photo-tag-game/static/media/big-bend.7e11e2cc.jpg",
     "static/media/glacier.02cce938.jpg": "/photo-tag-game/static/media/glacier.02cce938.jpg",
@@ -23,7 +23,7 @@
   "entrypoints": [
     "static/js/runtime-main.7a038804.js",
     "static/js/2.fdb7d3d5.chunk.js",
-    "static/css/main.a8504bbb.chunk.css",
+    "static/css/main.54719528.chunk.css",
     "static/js/main.eaf10f7d.chunk.js"
   ]
 }
