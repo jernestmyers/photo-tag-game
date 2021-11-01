@@ -6,7 +6,6 @@ function Leaderboard(props) {
   const [leaderboard, setLeaderboard] = useState();
 
   useEffect(() => {
-    console.log(`Leaderboard mounted`);
     fetchLeaderboard();
   }, []);
 
@@ -22,7 +21,6 @@ function Leaderboard(props) {
   }
 
   const fetchLeaderboard = async () => {
-    console.log(`firestore: fetch leaderboard`);
     const dataHelper = [];
     const targetRef = collection(props.db, "leaderboard");
     const getLeaderboard = await getDocs(targetRef);
@@ -33,7 +31,6 @@ function Leaderboard(props) {
   };
 
   const handleAddTime = async () => {
-    console.log(`firestore: set time`);
     const targetColumn = document.querySelector(`#submit-time-container`);
     const nameInput = document.querySelector(`.leaderboard-input`);
     if (nameInput.value) {

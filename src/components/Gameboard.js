@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import photoCollage2 from "../assets/national-parks-collage-2.jpg";
 import TargetSelector from "./TargetSelector";
+import BeginGameModal from "./BeginGameModal";
 import GameOverModal from "./GameOverModal";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
@@ -21,6 +22,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
 function Gameboard(props) {
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [relativeTargetData, setRelativeTargetData] = useState();
   const [clickLocation, setClickLocation] = useState({});
   const [clickedClassName, setClickedClassName] = useState();
@@ -34,6 +36,7 @@ function Gameboard(props) {
   ]);
   const [isTargetIncorrect, setIsTargetIncorrect] = useState();
   const [isGameOver, setIsGameOver] = useState(false);
+  const [timeOfStart, setTimeOfStart] = useState();
   const [timeOfEnd, setTimeOfEnd] = useState();
   const [duration, setDuration] = useState(0);
 
@@ -46,7 +49,7 @@ function Gameboard(props) {
       { name: `Rocky Mountain`, value: `rockies` },
       { name: `Saguaro`, value: `saguaro` },
     ]);
-    props.setTimeOfStart(new Date());
+    setTimeOfStart(new Date());
     setIsGameOver(false);
     document.querySelector(`#gameover-modal`).style.display = `none`;
     document.querySelector(`#img-collage`).style.filter = ``;
@@ -58,11 +61,18 @@ function Gameboard(props) {
 
   useEffect(() => {
     console.log(`Gameboard mounted`);
+    HandleLocationData();
     const imgCollage = document.querySelector(`#img-collage`);
     imgCollage.style.filter = `blur(0.50rem)`;
-    window.addEventListener(`click`, handleClick);
-    HandleLocationData();
+    // window.addEventListener(`click`, handleClick);
   }, []);
+
+  useEffect(() => {
+    if (timeOfStart) {
+      console.log(`addEventListener`);
+      window.addEventListener(`click`, handleClick);
+    }
+  }, [isInitialLoad]);
 
   useEffect(() => {
     handlePointerDisplay();
@@ -78,7 +88,7 @@ function Gameboard(props) {
 
   useEffect(() => {
     if (isGameOver) {
-      setDuration(differenceInMilliseconds(timeOfEnd, props.timeOfStart));
+      setDuration(differenceInMilliseconds(timeOfEnd, timeOfStart));
     }
   }, [timeOfEnd]);
 
@@ -105,7 +115,8 @@ function Gameboard(props) {
       e.target.className !== `choose-park-btn` &&
       e.target.className !== `new-game-btn` &&
       e.target.className !== `leaderboard-input` &&
-      e.target.id !== `submit-time-btn`
+      e.target.id !== `submit-time-btn` &&
+      !isInitialLoad
     ) {
       setClickLocation({ x: e.pageX, y: e.pageY });
     }
@@ -208,7 +219,6 @@ function Gameboard(props) {
   };
 
   const validateSelection = (e) => {
-    console.log(`validate`);
     const targetClicked = e.target.value;
     const imgCollage = document.querySelector(`#img-collage`);
     const body = document.querySelector(`body`);
@@ -346,6 +356,11 @@ function Gameboard(props) {
         src={photoCollage2}
         alt="A collage of imagery representing the different National Parks of the United States."
       ></img>
+      <BeginGameModal
+        isGameOver={isGameOver}
+        setTimeOfStart={setTimeOfStart}
+        setIsInitialLoad={setIsInitialLoad}
+      ></BeginGameModal>
       <GameOverModal
         db={db}
         isGameOver={isGameOver}

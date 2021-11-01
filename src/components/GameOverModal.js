@@ -1,5 +1,6 @@
 import React from "react";
 import Leaderboard from "./Leaderboard";
+import Footer from "./Footer";
 
 function GameOverModal(props) {
   return (
@@ -14,9 +15,14 @@ function GameOverModal(props) {
         isGameOver={props.isGameOver}
         duration={props.duration}
       ></Leaderboard>
-      <button onClick={props.resetGame} className="new-game-btn">
+      <button
+        id="play-again-btn"
+        onClick={props.resetGame}
+        className="new-game-btn"
+      >
         Play Again?
       </button>
+      <Footer isGameOver={props.isGameOver}></Footer>
     </div>
   );
 }

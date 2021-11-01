@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Footer() {
+export default function Footer(props) {
   return (
     <footer>
       <div id="contact-links">
@@ -37,16 +37,18 @@ export default function Footer() {
           </svg>
         </a>
       </div>
-      <div id="collage-link-container">
-        <a
-          className="footer-link collage-link"
-          href="https://www.andersondesigngroupstore.com/a/collections/61-american-national-parks/63-image-national-parks-collage-map/1861959974961"
-          target="_blank"
-          rel="noreferrer"
-        >
-          click here to purchase the poster shown
-        </a>
-      </div>
+      {props.isGameOver ? (
+        <div id="collage-link-container">
+          <a
+            className="footer-link collage-link"
+            href="https://www.andersondesigngroupstore.com/a/collections/61-american-national-parks/63-image-national-parks-collage-map/1861959974961"
+            target="_blank"
+            rel="noreferrer"
+          >
+            click here to purchase the poster shown
+          </a>
+        </div>
+      ) : null}
     </footer>
   );
 }

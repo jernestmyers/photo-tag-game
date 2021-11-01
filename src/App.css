@@ -159,7 +159,6 @@ body {
 .image-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 2.25rem;
 }
 
 .pseudo-relative-container {
@@ -216,7 +215,6 @@ body {
   z-index: 10;
 }
 
-/* path { */
 .checkbox {
   fill: #eefc57;
 }
@@ -312,17 +310,17 @@ h2 {
   line-height: 2rem;
   color: #5e5b52;
   border-radius: 0.75rem;
-  padding: 1rem 0.5rem;
+  padding: 0.5rem 0.75rem;
   font-size: 0.9rem;
 }
 
 #begin-modal-container {
   display: flex;
   justify-content: space-between;
-  height: 175px;
 }
 
 #begin-modal-instructions {
+  margin: 0.75rem 0 1rem 0;
   text-align: justify;
   line-height: 1.5rem;
 }
@@ -366,18 +364,23 @@ tr:last-child td {
   font-weight: bolder;
 }
 
-#leaderboard-header {
-  font-size: 1.125rem;
-  text-align: center;
+#leaderboard-header,
+#time-finished {
   font-weight: bold;
   text-decoration: underline;
-  text-underline-offset: 0.3rem;
   text-decoration-thickness: 0.125rem;
 }
 
+#leaderboard-header {
+  margin-top: 1rem;
+  font-size: 1.125rem;
+  text-align: center;
+  text-underline-offset: 0.3rem;
+}
+
 #time-finished {
-  color: #d17da1;
-  font-weight: bold;
+  color: #5e5b52;
+  text-underline-offset: 0.2rem;
 }
 
 #table-spacer-row {
@@ -413,7 +416,12 @@ tr:last-child td {
 
 .new-game-btn {
   height: 2rem;
+  width: 8rem;
   margin-top: 0.5rem;
+}
+
+#play-again-btn {
+  margin-top: 1.25rem;
 }
 
 .new-game-btn:hover,
@@ -423,50 +431,47 @@ tr:last-child td {
 
 /* BEGIN FOOTER CSS */
 footer {
-  height: 2rem;
+  height: auto;
   box-sizing: border-box;
   width: 100%;
-  max-width: 1920px;
-  position: fixed;
-  left: 0;
-  bottom: 0;
   display: flex;
-  justify-content: center;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  background-color: #79766f;
-  color: #eefc57;
-  z-index: 20;
+  margin-top: 0.75rem;
 }
 
 .footer-icon {
-  fill: #eefc57;
-  margin: 0 1rem;
-  width: 1.5rem;
-  height: 1.5rem;
+  fill: #fc7a57;
+  margin: 0 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .footer-icon:hover {
-  fill: #d17da1;
+  fill: #5e5b52;
 }
 
 .footer-link {
-  color: #eefc57;
-  height: 1.5rem;
+  color: #79766f;
+  font-weight: 600;
+  height: 1.25rem;
   text-decoration: none;
 }
 
 #footer-link:visited {
-  color: #eefc57;
+  color: #79766f;
 }
 
 #collage-link-container {
-  font-size: 1rem;
-  margin-right: 0.5rem;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
 }
 
 .collage-link:hover {
-  color: #d17da1;
+  color: #5e5b52;
+  text-decoration: underline;
+  text-decoration-thickness: 0.125rem;
+  text-underline-offset: 0.25rem;
 }
 
 #contact-links {

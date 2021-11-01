@@ -1,10 +1,11 @@
 import React from "react";
+import Footer from "./Footer";
 
 function BeginGameModal(props) {
   const handleStart = () => {
     const imgCollage = document.querySelector(`#img-collage`);
     imgCollage.style.filter = ``;
-    // props.setIsInitialLoad(false);
+    props.setIsInitialLoad(false);
     props.setTimeOfStart(new Date());
     document.querySelector(`#begin-modal-container`).style.display = `none`;
   };
@@ -18,6 +19,7 @@ function BeginGameModal(props) {
       <button className="new-game-btn" onClick={handleStart}>
         Start Game
       </button>
+      <Footer isGameOver={props.isGameOver}></Footer>
     </div>
   );
 }
