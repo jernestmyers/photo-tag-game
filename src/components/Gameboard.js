@@ -55,7 +55,6 @@ function Gameboard(props) {
     document.querySelectorAll(`.emblem-key`).forEach((emblem) => {
       emblem.classList.remove(`target-found`);
     });
-    // document.querySelector(`.pointer`).style.display = `none`;
     setClickLocation({});
   };
 
@@ -74,6 +73,7 @@ function Gameboard(props) {
     if (selectorTargets.length === 0) {
       setIsGameOver(true);
       setTimeOfEnd(new Date());
+      document.querySelector(`.pointer`).style.display = `none`;
     }
   }, [selectorTargets]);
 
@@ -115,95 +115,97 @@ function Gameboard(props) {
   };
 
   const handlePointerDisplay = (e) => {
-    console.log(`handlePointerDisplay`);
-    if (!isTargetIncorrect) {
-      document.querySelector(
-        `.incorrect-selection-container`
-      ).style.display = `none`;
-    }
-    const pointer = document.querySelector(`.pointer`);
-    const imgCollage = document.querySelector(`#img-collage`);
-    if (
-      clickLocation.x >= imgCollage.offsetLeft &&
-      clickLocation.x <= imgCollage.offsetLeft + imgCollage.width &&
-      clickLocation.y >= imgCollage.offsetTop &&
-      clickLocation.y <= imgCollage.offsetTop + imgCollage.height &&
-      clickedClassName !== `choose-park-btn`
-    ) {
-      // BEGIN - display properties for the pointer
-      const pointerDiameterString = window
-        .getComputedStyle(pointer)
-        .getPropertyValue(`width`);
-      const pointerDiameterInteger = +pointerDiameterString.substring(
-        0,
-        pointerDiameterString.length - 2
-      );
-      pointer.style.display = `block`;
-      pointer.style.left = `${
-        clickLocation.x - imgCollage.offsetLeft - pointerDiameterInteger / 2
-      }px`;
-      pointer.style.top = `${
-        clickLocation.y - imgCollage.offsetTop - pointerDiameterInteger / 2
-      }px`;
-
-      // BEGIN - display properties for the selectors
-      const selectorContainer = document.querySelector(
-        `#park-selector-container`
-      );
-      const selectorContainerWidthString = window
-        .getComputedStyle(selectorContainer)
-        .getPropertyValue(`width`);
-      const selectorContainerWidthInteger =
-        +selectorContainerWidthString.substring(
-          0,
-          selectorContainerWidthString.length - 2
-        );
-      const selectorContainerHeightString = window
-        .getComputedStyle(selectorContainer)
-        .getPropertyValue(`height`);
-      const selectorContainerHeightInteger =
-        +selectorContainerHeightString.substring(
-          0,
-          selectorContainerHeightString.length - 2
-        );
-      const parkSelector = document.querySelector(`#park-selector`);
-
-      // BEGIN - if-else block to determine if selector displays left or right of pointer window
-      if (
-        clickLocation.x +
-          10 +
-          selectorContainerWidthInteger +
-          pointerDiameterInteger / 2 <=
-        imgCollage.offsetLeft + imgCollage.width
-      ) {
-        selectorContainer.style.left = `${pointerDiameterInteger + 5}px`;
-        selectorContainer.style.right = ``;
-        parkSelector.style.alignItems = `flex-start`;
-      } else {
-        selectorContainer.style.left = ``;
-        selectorContainer.style.right = `${
-          selectorContainerWidthInteger + pointerDiameterInteger / 5
-        }px`;
-        parkSelector.style.alignItems = `flex-end`;
+    if (!isGameOver) {
+      console.log(`handlePointerDisplay`);
+      if (!isTargetIncorrect) {
+        document.querySelector(
+          `.incorrect-selection-container`
+        ).style.display = `none`;
       }
+      const pointer = document.querySelector(`.pointer`);
+      const imgCollage = document.querySelector(`#img-collage`);
       if (
-        clickLocation.y + selectorContainerHeightInteger >=
-        imgCollage.offsetTop + imgCollage.height
+        clickLocation.x >= imgCollage.offsetLeft &&
+        clickLocation.x <= imgCollage.offsetLeft + imgCollage.width &&
+        clickLocation.y >= imgCollage.offsetTop &&
+        clickLocation.y <= imgCollage.offsetTop + imgCollage.height &&
+        clickedClassName !== `choose-park-btn`
       ) {
-        selectorContainer.style.top = `-${
-          selectorContainerHeightInteger - pointerDiameterInteger
+        // BEGIN - display properties for the pointer
+        const pointerDiameterString = window
+          .getComputedStyle(pointer)
+          .getPropertyValue(`width`);
+        const pointerDiameterInteger = +pointerDiameterString.substring(
+          0,
+          pointerDiameterString.length - 2
+        );
+        pointer.style.display = `block`;
+        pointer.style.left = `${
+          clickLocation.x - imgCollage.offsetLeft - pointerDiameterInteger / 2
         }px`;
+        pointer.style.top = `${
+          clickLocation.y - imgCollage.offsetTop - pointerDiameterInteger / 2
+        }px`;
+
+        // BEGIN - display properties for the selectors
+        const selectorContainer = document.querySelector(
+          `#park-selector-container`
+        );
+        const selectorContainerWidthString = window
+          .getComputedStyle(selectorContainer)
+          .getPropertyValue(`width`);
+        const selectorContainerWidthInteger =
+          +selectorContainerWidthString.substring(
+            0,
+            selectorContainerWidthString.length - 2
+          );
+        const selectorContainerHeightString = window
+          .getComputedStyle(selectorContainer)
+          .getPropertyValue(`height`);
+        const selectorContainerHeightInteger =
+          +selectorContainerHeightString.substring(
+            0,
+            selectorContainerHeightString.length - 2
+          );
+        const parkSelector = document.querySelector(`#park-selector`);
+
+        // BEGIN - if-else block to determine if selector displays left or right of pointer window
+        if (
+          clickLocation.x +
+            10 +
+            selectorContainerWidthInteger +
+            pointerDiameterInteger / 2 <=
+          imgCollage.offsetLeft + imgCollage.width
+        ) {
+          selectorContainer.style.left = `${pointerDiameterInteger + 5}px`;
+          selectorContainer.style.right = ``;
+          parkSelector.style.alignItems = `flex-start`;
+        } else {
+          selectorContainer.style.left = ``;
+          selectorContainer.style.right = `${
+            selectorContainerWidthInteger + pointerDiameterInteger / 5
+          }px`;
+          parkSelector.style.alignItems = `flex-end`;
+        }
+        if (
+          clickLocation.y + selectorContainerHeightInteger >=
+          imgCollage.offsetTop + imgCollage.height
+        ) {
+          selectorContainer.style.top = `-${
+            selectorContainerHeightInteger - pointerDiameterInteger
+          }px`;
+        } else {
+          selectorContainer.style.top = ``;
+        }
+        // END - if-else block to determine if selector displays left or right of pointer window
+        // END - display properties for the selectors
       } else {
-        selectorContainer.style.top = ``;
+        pointer.style.display = `none`;
+        pointer.style.left = ``;
+        pointer.style.top = ``;
       }
-      // END - if-else block to determine if selector displays left or right of pointer window
-      // END - display properties for the selectors
-    } else {
-      pointer.style.display = `none`;
-      pointer.style.left = ``;
-      pointer.style.top = ``;
+      // END - display properties for the pointer
     }
-    // END - display properties for the pointer
   };
 
   const validateSelection = (e) => {
