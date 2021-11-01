@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/photo-tag-game/static/css/main.9fef4003.chunk.css",
+    "main.js": "/photo-tag-game/static/js/main.b718cb38.chunk.js",
+    "main.js.map": "/photo-tag-game/static/js/main.b718cb38.chunk.js.map",
+    "runtime-main.js": "/photo-tag-game/static/js/runtime-main.7a038804.js",
+    "runtime-main.js.map": "/photo-tag-game/static/js/runtime-main.7a038804.js.map",
+    "static/js/2.fdb7d3d5.chunk.js": "/photo-tag-game/static/js/2.fdb7d3d5.chunk.js",
+    "static/js/2.fdb7d3d5.chunk.js.map": "/photo-tag-game/static/js/2.fdb7d3d5.chunk.js.map",
+    "static/js/3.19ef5363.chunk.js": "/photo-tag-game/static/js/3.19ef5363.chunk.js",
+    "static/js/3.19ef5363.chunk.js.map": "/photo-tag-game/static/js/3.19ef5363.chunk.js.map",
+    "index.html": "/photo-tag-game/index.html",
+    "static/css/main.9fef4003.chunk.css.map": "/photo-tag-game/static/css/main.9fef4003.chunk.css.map",
+    "static/js/2.fdb7d3d5.chunk.js.LICENSE.txt": "/photo-tag-game/static/js/2.fdb7d3d5.chunk.js.LICENSE.txt",
+    "static/media/big-bend.7e11e2cc.jpg": "/photo-tag-game/static/media/big-bend.7e11e2cc.jpg",
+    "static/media/glacier.02cce938.jpg": "/photo-tag-game/static/media/glacier.02cce938.jpg",
+    "static/media/guad-mtns.397dd22c.jpg": "/photo-tag-game/static/media/guad-mtns.397dd22c.jpg",
+    "static/media/joshua-tree.711983f8.jpg": "/photo-tag-game/static/media/joshua-tree.711983f8.jpg",
+    "static/media/national-parks-collage-2.54ab797a.jpg": "/photo-tag-game/static/media/national-parks-collage-2.54ab797a.jpg",
+    "static/media/rocky-mtns.f514144a.jpg": "/photo-tag-game/static/media/rocky-mtns.f514144a.jpg",
+    "static/media/saguaro.b19c9e34.jpg": "/photo-tag-game/static/media/saguaro.b19c9e34.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7a038804.js",
+    "static/js/2.fdb7d3d5.chunk.js",
+    "static/css/main.9fef4003.chunk.css",
+    "static/js/main.b718cb38.chunk.js"
+  ]
+}
