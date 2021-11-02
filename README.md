@@ -1,4 +1,4 @@
-# photo-tagging game
+# find and seek - national parks edition
 
 this is the [fourth react project](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/where-s-waldo-a-photo-tagging-app) from the odin project's full stack javascript curriculum.
 
