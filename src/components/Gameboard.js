@@ -98,13 +98,19 @@ function Gameboard(props) {
   };
 
   const HandleLocationData = async () => {
-    const fetchRelativeTargetData = await getDocs(
-      collection(db, "relative-img-locations")
-    );
-    const fetchedTargetDataProcessed = await storeFetchAsArray(
-      fetchRelativeTargetData
-    );
-    setRelativeTargetData(fetchedTargetDataProcessed);
+    try {
+      const fetchRelativeTargetData = await getDocs(
+        collection(db, "relative-img-locations")
+      );
+      const fetchedTargetDataProcessed = await storeFetchAsArray(
+        fetchRelativeTargetData
+      );
+      setRelativeTargetData(fetchedTargetDataProcessed);
+    } catch (error) {
+      alert(
+        `Hmm, we're experiencing the following error: "${error}." Try again later.`
+      );
+    }
   };
 
   const handleClick = (e) => {

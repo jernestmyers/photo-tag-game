@@ -38,4 +38,3 @@ this is the [fourth react project](https://www.theodinproject.com/paths/full-sta
 ## areas for improvement
 
 1. improve responsiveness across browsers and devices.
-2. need error handling for the firestore calls.

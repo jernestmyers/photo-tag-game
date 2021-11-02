@@ -25,11 +25,17 @@ function Leaderboard(props) {
   const fetchLeaderboard = async () => {
     const dataHelper = [];
     const targetRef = collection(props.db, "leaderboard");
-    const getLeaderboard = await getDocs(targetRef);
-    getLeaderboard.forEach((leader) => {
-      dataHelper.push({ id: leader.id, data: leader.data() });
-    });
-    setLeaderboard(dataHelper.sort((a, b) => a.data.time - b.data.time));
+    try {
+      const getLeaderboard = await getDocs(targetRef);
+      getLeaderboard.forEach((leader) => {
+        dataHelper.push({ id: leader.id, data: leader.data() });
+      });
+      setLeaderboard(dataHelper.sort((a, b) => a.data.time - b.data.time));
+    } catch (error) {
+      alert(
+        `Hmm, we're experiencing the following error: "${error}." Try again later.`
+      );
+    }
   };
 
   const handleAddTime = async () => {
@@ -40,10 +46,16 @@ function Leaderboard(props) {
       targetColumn.textContent = nameInput.value;
       userObject.id = uniqid();
       userObject.data.name = nameInput.value;
-      await setDoc(
-        doc(props.db, "leaderboard", userObject.id),
-        userObject.data
-      );
+      try {
+        await setDoc(
+          doc(props.db, "leaderboard", userObject.id),
+          userObject.data
+        );
+      } catch (error) {
+        alert(
+          `Hmm, we're experiencing the following error: "${error}." Try again later.`
+        );
+      }
     }
   };
 
