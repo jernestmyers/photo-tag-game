@@ -7,7 +7,6 @@ function Leaderboard(props) {
 
   useEffect(() => {
     if (!props.isInitialLoad) {
-      console.log(`fetch leaderboard`);
       fetchLeaderboard();
     }
   }, [props.timeOfStart]);
