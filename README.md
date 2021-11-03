@@ -8,7 +8,7 @@ this is the [fourth react project](https://www.theodinproject.com/paths/full-sta
 
 [click here](https://jernestmyers.github.io/photo-tag-game/) for a live version!
 
-## project objective
+## project objectives
 
 1. use react with a firebase backend to build a photo-tagging game reminiscent of a "where's waldo" puzzle.
 2. leverage firebase's firestore NoSQL cloud storage to validate targets and to maintain a leaderboard.
