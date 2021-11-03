@@ -2,7 +2,7 @@
 
 this is the [fourth react project](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/where-s-waldo-a-photo-tagging-app) from the odin project's full stack javascript curriculum.
 
-![gif demonstrating the app's gameplay](./demo-imgs/photo-tag-demo.gif)
+![gif demonstrating the app's gameplay](./demo-imgs/photo-tag-demo-2.gif)
 
 ## live version
 
